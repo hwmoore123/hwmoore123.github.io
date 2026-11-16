@@ -14,31 +14,37 @@ float noise(vec2 p){
   return mix(mix(hash(i), hash(i+vec2(1,0)), u.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), u.x), u.y);
 }
 float fbm(vec2 p){ float v = 0.0, a = 0.5; for(int i=0;i<5;i++){ v += a*noise(p); p = p*2.03 + 17.1; a *= 0.5; } return v; }
-vec3 palette(float t){
-  vec3 violet = vec3(0.482,0.173,1.0), magenta = vec3(1.0,0.18,0.592), orange = vec3(1.0,0.541,0.118);
-  vec3 lime = vec3(0.714,1.0,0.231), teal = vec3(0.0,0.761,0.722);
-  t = fract(t);
-  float s = 0.12; // soft edge between blobs
-  vec3 c = violet;
-  c = mix(c, magenta, smoothstep(0.20-s, 0.20+s, t));
-  c = mix(c, orange,  smoothstep(0.42-s, 0.42+s, t));
-  c = mix(c, lime,    smoothstep(0.60-s*.4, 0.60+s*.4, t));
-  c = mix(c, teal,    smoothstep(0.67-s*.4, 0.67+s*.4, t));
-  c = mix(c, violet,  smoothstep(0.80-s, 0.80+s, t));
-  return c;
+vec3 tie(float t){
+  // seven dye colors, mostly solid bands with a soft bleed at the edges
+  t = fract(t) * 7.0;
+  float i = floor(t), f = smoothstep(0.62, 1.0, fract(t));
+  vec3 c[7];
+  c[0] = vec3(1.0,0.18,0.592); c[1] = vec3(1.0,0.541,0.118); c[2] = vec3(0.992,0.722,0.153);
+  c[3] = vec3(0.714,1.0,0.231); c[4] = vec3(0.0,0.761,0.722); c[5] = vec3(0.0,0.616,0.863);
+  c[6] = vec3(0.482,0.173,1.0);
+  vec3 a = c[0], b = c[1];
+  for (int k = 0; k < 7; k++) {
+    if (float(k) == i) a = c[k];
+    if (float(k) == mod(i + 1.0, 7.0)) b = c[k];
+  }
+  return mix(a, b, f) * (1.0 - 0.28 * smoothstep(0.55, 0.75, fract(t)) * (1.0 - f));
 }
 void main(){
-  vec2 uv = gl_FragCoord.xy / uRes.y;
-  vec2 p = uv * 1.6;
+  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
   float t = uTime * 0.1;
-  vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, 1.3) - t*0.8));
-  vec2 r = vec2(fbm(p + uWarp*q + vec2(1.7, 9.2) + 0.15*t + uMouse*0.6),
-                fbm(p + uWarp*q + vec2(8.3, 2.8) - 0.12*t));
-  float f = fbm(p + uWarp*r);
-  vec3 col = palette(f*1.35 + 0.25*length(q) + t*0.35);
-  // oil-lamp shading: darker in the folds, glow where it thins
-  col *= 0.72 + 0.5*smoothstep(0.2, 0.9, f);
-  col += 0.08*vec3(1.0,0.9,0.7)*pow(length(r), 3.0);
+  // bunched-fabric wobble, stronger with the dose
+  vec2 q = vec2(fbm(uv * 3.0 + t), fbm(uv * 3.0 + vec2(4.1, 7.3) - t));
+  vec2 p = uv + (q - 0.5) * 0.09 * uWarp + uMouse * 0.08;
+  float r = length(p) + 0.003, a = atan(p.y, p.x);
+  float s = a / 6.2831853 * 4.0 + log(r) * 1.9 - t * 1.4 + 0.45 * fbm(p * 6.0 + q * uWarp);
+  vec3 col = tie(s);
+  // crinkle: pale streaks where folds kept the dye out
+  float cr = fbm(vec2(a * 5.0, r * 26.0) + q * 2.0 + t * 0.3);
+  col = mix(col, vec3(0.98, 0.95, 0.88), smoothstep(0.6, 0.78, cr) * 0.55);
+  // a little oily liquid light swirled through it
+  float f = fbm(uv * 1.6 + uWarp * q + t);
+  col = mix(col, col.gbr, 0.18 * smoothstep(0.55, 0.8, f));
+  col *= 0.88 + 0.22 * smoothstep(1.2, 0.0, r);
   gl_FragColor = vec4(col, 1.0);
 }`;
 

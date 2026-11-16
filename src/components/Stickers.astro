@@ -1,0 +1,76 @@
+---
+// Hand-drawn stickers slapped around the page margins. Original motifs only.
+const stickers = [
+  { k: 'mushroom', top: '18%', left: '2%', rot: -14, size: 110 },
+  { k: 'eye', top: '46%', right: '2%', rot: 9, size: 120 },
+  { k: 'star', top: '78%', left: '3%', rot: 18, size: 90 },
+  { k: 'sun', top: '12%', right: '4%', rot: -8, size: 120 },
+  { k: 'peace', top: '64%', left: '1%', rot: 6, size: 96 },
+  { k: 'bolt', top: '88%', right: '6%', rot: -20, size: 80 },
+];
+---
+<div class="stickers" aria-hidden="true">
+  {stickers.map((s, i) => (
+    <svg
+      viewBox="0 0 100 100"
+      class={`st st-${s.k}`}
+      style={`top:${s.top};${s.left ? `left:${s.left}` : `right:${s.right}`};width:${s.size}px;--r:${s.rot}deg;animation-delay:${-i * 2.3}s`}
+    >
+      {s.k === 'mushroom' && (
+        <g stroke="#23170D" stroke-width="4" stroke-linejoin="round">
+          <path d="M10 52 C10 18 90 18 90 52 Z" fill="#FF2E97" />
+          <circle cx="32" cy="38" r="7" fill="#F4ECDA" /><circle cx="56" cy="30" r="6" fill="#F4ECDA" /><circle cx="72" cy="44" r="5" fill="#F4ECDA" />
+          <path d="M38 52 C36 70 34 84 30 92 H70 C66 84 64 70 62 52 Z" fill="#F4ECDA" />
+          <circle cx="44" cy="70" r="2.5" fill="#23170D" /><circle cx="56" cy="70" r="2.5" fill="#23170D" />
+          <path d="M44 79 q6 5 12 0" fill="none" />
+        </g>
+      )}
+      {s.k === 'eye' && (
+        <g stroke="#23170D" stroke-width="4">
+          <path d="M6 50 Q50 6 94 50 Q50 94 6 50 Z" fill="#B6FF3B" />
+          <circle cx="50" cy="50" r="22" fill="#7B2CFF" />
+          <circle cx="50" cy="50" r="10" fill="#23170D" />
+          <circle cx="56" cy="44" r="4" fill="#fff" stroke="none" />
+        </g>
+      )}
+      {s.k === 'star' && (
+        <path d="M50 4 L61 38 L96 38 L68 59 L79 94 L50 72 L21 94 L32 59 L4 38 L39 38 Z" fill="#FDB827" stroke="#23170D" stroke-width="4" stroke-linejoin="round" />
+      )}
+      {s.k === 'sun' && (
+        <g stroke="#23170D" stroke-width="3.5" stroke-linejoin="round">
+          {Array.from({ length: 12 }, (_, j) => (
+            <path d="M50 2 L56 22 L44 22 Z" fill={j % 2 ? '#FF8A1E' : '#FF2E97'} transform={`rotate(${j * 30} 50 50)`} />
+          ))}
+          <circle cx="50" cy="50" r="27" fill="#FDB827" />
+          <path d="M39 46 q4 -5 8 0 M53 46 q4 -5 8 0" fill="none" />
+          <path d="M38 58 q12 11 24 0" fill="none" />
+        </g>
+      )}
+      {s.k === 'peace' && (
+        <g fill="none" stroke="#23170D" stroke-width="5">
+          <circle cx="50" cy="50" r="42" fill="#00C2B8" />
+          <circle cx="50" cy="50" r="42" stroke="#F4ECDA" stroke-width="2" />
+          <path d="M50 8 V92 M50 50 L21 80 M50 50 L79 80" stroke="#F4ECDA" stroke-width="9" />
+          <path d="M50 8 V92 M50 50 L21 80 M50 50 L79 80" stroke-width="2" />
+        </g>
+      )}
+      {s.k === 'bolt' && (
+        <path d="M58 4 L20 56 H46 L38 96 L82 40 H54 Z" fill="#B6FF3B" stroke="#23170D" stroke-width="4" stroke-linejoin="round" />
+      )}
+    </svg>
+  ))}
+</div>
+
+<style>
+  .stickers { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .st {
+    position: absolute; height: auto;
+    transform: rotate(var(--r));
+    filter: drop-shadow(3px 4px 0 #F4ECDA) drop-shadow(0 0 0 #23170D) drop-shadow(4px 6px 0 rgba(35,23,13,.35));
+    animation: bob 9s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { transform: rotate(calc(var(--r) * -1)) translateY(-14px) scale(1.06); } }
+  :global(html[data-dose='trip']) .st { animation-duration: 3.5s; }
+  :global(html[data-dose='sober']) .st { animation: none; }
+  @media (max-width: 900px) { .st { opacity: .55; width: 64px !important; } }
+</style>

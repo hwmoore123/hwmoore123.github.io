@@ -6,6 +6,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Knob from '../components/Knob.astro';
+import Stickers from '../components/Stickers.astro';
 
 interface Props { title: string; description?: string; page?: string }
 const {
@@ -40,6 +41,8 @@ const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
   </head>
   <body data-page={page}>
     <a class="skip" href="#main">Skip to content</a>
+    <div id="tiedye" class="tiedye" aria-hidden="true"></div>
+    <Stickers />
 
     <!-- Shared SVG filters. #warp is only ever applied to display type. -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -65,6 +68,7 @@ const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
 
     <script>
       import '../scripts/dial';
+      import '../scripts/tiedye';
     </script>
     <style>
       .notice {

@@ -118,9 +118,14 @@ html[data-dose='sober'] .display { filter: none; }
 
 /* vibration pairs (display only). The ink outline keeps them legible on beige. */
 .vibe-ml, .vibe-ov, .vibe-lm { -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; }
-.vibe-ml { color: var(--magenta); text-shadow: 3px 3px 0 var(--lime); }
-.vibe-ov { color: var(--orange); text-shadow: 3px 3px 0 var(--violet); }
-.vibe-lm { color: var(--lime); text-shadow: 3px 3px 0 var(--magenta); }
+.vibe-ml, .vibe-ov, .vibe-lm {
+  text-shadow:
+    3px 3px 0 var(--ink), 6px 6px 0 var(--r6), 9px 9px 0 var(--r4),
+    12px 12px 0 var(--r2), 15px 15px 0 var(--ink);
+}
+.vibe-ml { color: var(--magenta); }
+.vibe-ov { color: var(--orange); }
+.vibe-lm { color: var(--lime); }
 
 /* poster layers hue-drift; body text never does */
 .drift { animation: hue var(--drift-dur) linear infinite; animation-play-state: var(--drift-state); }
@@ -207,3 +212,79 @@ main { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) {
   html:not([data-dose-chosen]) * { animation: none !important; transition: none !important; }
 }
+
+
+/* ==========================================================
+   TIE-DYE MODE — less tidy, more dye
+   Body text still only ever sits on paper patches (AA contrast).
+   ========================================================== */
+body { background: var(--violet); }
+body::before { opacity: .14; }
+
+.tiedye {
+  position: fixed; z-index: -1;
+  width: 170vmax; height: 170vmax;
+  left: 50%; top: 50%; margin: -85vmax 0 0 -85vmax;
+  background:
+    repeating-conic-gradient(from 10deg,
+      #FF2E97 0 14deg, #FF8A1E 0 28deg, #FDB827 0 42deg, #B6FF3B 0 56deg,
+      #00C2B8 0 70deg, #009DDC 0 84deg, #7B2CFF 0 98deg);
+  background-size: cover; background-position: center;
+  animation: tdspin 200s linear infinite;
+  animation-play-state: var(--drift-state);
+}
+.tiedye.painted { filter: saturate(1.15); }
+html[data-dose='trip'] .tiedye { animation-duration: 45s; }
+@keyframes tdspin { to { transform: rotate(360deg); } }
+
+/* hand-drawn paper patches for any text that would otherwise sit on dye */
+.patch,
+.page-head .lede,
+.facts > div,
+.bill .lead,
+.note,
+.lost .lede {
+  position: relative;
+  background: var(--beige);
+  color: var(--ink);
+  padding: 18px 22px;
+  border: 3px solid var(--ink);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  box-shadow: 7px 8px 0 var(--ink);
+}
+.page-head .lede { display: inline-block; transform: rotate(-1.2deg); color: var(--ink); }
+.facts > div:nth-child(1) { transform: rotate(-2deg); }
+.facts > div:nth-child(2) { transform: rotate(1.5deg) translateY(14px); }
+.facts > div:nth-child(3) { transform: rotate(-.8deg) translateY(-6px); }
+.bill .lead { transform: rotate(-1.5deg); }
+.note { transform: rotate(1deg); }
+
+/* masking tape on patches */
+.page-head .lede::before,
+.facts > div::before,
+.bill .lead::before {
+  content: ''; position: absolute; top: -14px; left: 50%; width: 90px; height: 26px;
+  margin-left: -45px; transform: rotate(-4deg);
+  background: rgba(253, 184, 39, .75);
+  border-left: 2px dashed rgba(35,23,13,.25); border-right: 2px dashed rgba(35,23,13,.25);
+}
+
+/* sticker-style labels */
+.page-head .term-label, .kicker {
+  display: inline-block; transform: rotate(-3deg);
+  background: var(--crt); color: var(--phosphor) !important;
+  padding: 4px 12px; border-radius: 6px; border: 2px solid var(--lime);
+  box-shadow: 4px 4px 0 var(--magenta);
+}
+.page-head h1 { transform: rotate(-2.5deg); transform-origin: left; margin-block: 22px 18px; }
+
+/* everything a little crooked */
+.stub:nth-child(odd) { transform: rotate(-1.1deg); }
+.stub:nth-child(even) { transform: rotate(.9deg) translateX(10px); }
+.stub, .laminate, .resume, .sleeve, .tracks, .computer, .pegboard, .marquee, .sheet {
+  border-radius: 22px 8px 26px 10px / 10px 26px 8px 22px !important;
+}
+.ticket:nth-child(1) { transform: rotate(-4deg); }
+.ticket:nth-child(2) { transform: rotate(3deg) translateY(6px); }
+.ticket:nth-child(3) { transform: rotate(-2deg) translateY(-4px); }
+.ticket:hover { transform: rotate(5deg) scale(1.08); }
