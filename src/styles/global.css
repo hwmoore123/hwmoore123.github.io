@@ -1,0 +1,209 @@
+/* ==========================================================
+   Tokens — poster colors (loud) + garage colors (quiet)
+   ========================================================== */
+:root {
+  --magenta: #FF2E97;
+  --lime: #B6FF3B;
+  --orange: #FF8A1E;
+  --violet: #7B2CFF;
+  --teal: #00C2B8;
+
+  --r1: #61BB46; --r2: #FDB827; --r3: #F5821F;
+  --r4: #E03A3E; --r5: #963D97; --r6: #009DDC;
+  --rainbow: linear-gradient(180deg,
+    var(--r1) 0 16.66%, var(--r2) 0 33.33%, var(--r3) 0 50%,
+    var(--r4) 0 66.66%, var(--r5) 0 83.33%, var(--r6) 0 100%);
+  --rainbow-h: linear-gradient(90deg,
+    var(--r1) 0 16.66%, var(--r2) 0 33.33%, var(--r3) 0 50%,
+    var(--r4) 0 66.66%, var(--r5) 0 83.33%, var(--r6) 0 100%);
+
+  --beige: #E8DCC4;
+  --beige-2: #DCCDAE;
+  --beige-3: #CDBB98;
+  --walnut: #5C3A21;
+  --walnut-dark: #3A2312;
+  --phosphor: #33FF66;
+  --crt: #0B0F0A;
+  --ink: #23170D;
+  --ink-soft: #4A3727;
+  --gold: #D9A53A;
+
+  /* body links: violet on beige passes AA (≈5:1) */
+  --link: #5A1BD1;
+
+  --font-display: 'Shrikhand', 'Cooper Black', Georgia, serif;
+  --font-body: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-term: 'VT323', ui-monospace, 'Courier New', monospace;
+
+  --max: 1180px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  /* dose-controlled */
+  --drift-dur: 60s;
+  --drift-state: running;
+  --breath-dur: 9s;
+}
+html[data-dose='sober'] { --drift-state: paused; }
+html[data-dose='trip'] { --drift-dur: 18s; --breath-dur: 4.5s; }
+
+/* ==========================================================
+   Base
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--magenta) var(--walnut-dark); }
+body {
+  margin: 0;
+  background: var(--beige);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  overflow-x: hidden;
+}
+/* paper grain over everything (static, decorative) */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: .22;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+img, svg { max-width: 100%; }
+a { color: var(--link); text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: var(--magenta); }
+a:hover { text-decoration-color: var(--orange); }
+:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; border-radius: 4px; }
+
+h1, h2, h3 { line-height: 1.1; margin: 0 0 .4em; }
+p { margin: 0 0 1em; }
+
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  background: var(--crt); color: var(--phosphor); font-family: var(--font-term);
+  font-size: 22px; padding: 6px 14px; border-radius: 4px;
+}
+.skip:focus { top: 12px; }
+
+/* scroll bar = rainbow stripe */
+::-webkit-scrollbar { width: 14px; }
+::-webkit-scrollbar-track { background: var(--walnut-dark); }
+::-webkit-scrollbar-thumb { background: linear-gradient(90deg,
+    var(--r1) 0 16.66%, var(--r2) 0 33.33%, var(--r3) 0 50%,
+    var(--r4) 0 66.66%, var(--r5) 0 83.33%, var(--r6) 0 100%); border-radius: 7px; }
+
+/* ==========================================================
+   Grid — order underneath
+   ========================================================== */
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 760px) { .grid { grid-template-columns: minmax(0, 1fr); } .grid > * { grid-column: 1 / -1 !important; } }
+
+/* ==========================================================
+   Display type — the only thing that warps / drifts
+   ========================================================== */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: .01em;
+  filter: url(#warp);
+}
+html[data-dose='sober'] .display { filter: none; }
+
+/* vibration pairs (display only). The ink outline keeps them legible on beige. */
+.vibe-ml, .vibe-ov, .vibe-lm { -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; }
+.vibe-ml { color: var(--magenta); text-shadow: 3px 3px 0 var(--lime); }
+.vibe-ov { color: var(--orange); text-shadow: 3px 3px 0 var(--violet); }
+.vibe-lm { color: var(--lime); text-shadow: 3px 3px 0 var(--magenta); }
+
+/* poster layers hue-drift; body text never does */
+.drift { animation: hue var(--drift-dur) linear infinite; animation-play-state: var(--drift-state); }
+@keyframes hue { to { filter: hue-rotate(360deg); } }
+.drift.display { animation-name: hue-warp; }
+@keyframes hue-warp { from { filter: url(#warp) hue-rotate(0deg); } to { filter: url(#warp) hue-rotate(360deg); } }
+html[data-dose='sober'] .drift { animation: none; }
+
+.breathe { animation: breathe var(--breath-dur) ease-in-out infinite; transform-origin: 50% 60%; }
+@keyframes breathe { 50% { transform: scale(1.025) skewX(-1deg); } }
+html[data-dose='sober'] .breathe { animation: none; }
+
+/* ==========================================================
+   Materials
+   ========================================================== */
+.paper { background-color: var(--beige); }
+.halftone {
+  background-image: radial-gradient(rgba(35, 23, 13, .14) 1.1px, transparent 1.4px);
+  background-size: 7px 7px;
+}
+.wood {
+  background-color: var(--walnut);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='240'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .09' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .14 0 0 0 0 .07 0 0 0 0 .02 0 0 0 1.4 -.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.18));
+  background-size: 600px 240px, 100% 100%;
+  color: var(--beige);
+}
+.wood a { color: var(--lime); text-decoration-color: var(--orange); }
+.crt {
+  background: var(--crt);
+  color: var(--phosphor);
+  font-family: var(--font-term);
+  text-shadow: 0 0 6px rgba(51, 255, 102, .55);
+  position: relative;
+}
+.crt::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 1px, transparent 1px 3px);
+  box-shadow: inset 0 0 60px rgba(51,255,102,.12), inset 0 0 12px rgba(0,0,0,.9);
+}
+.stripe-h { height: 18px; background: var(--rainbow); }
+
+/* ==========================================================
+   Buttons — tickets
+   ========================================================== */
+.ticket {
+  --notch: 10px;
+  display: inline-flex; align-items: center; gap: .6em;
+  padding: 14px 26px;
+  font-family: var(--font-term);
+  font-size: 24px; line-height: 1;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--orange);
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+          mask:
+    radial-gradient(circle var(--notch) at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+  box-shadow: inset 0 0 0 2px rgba(35,23,13,.25);
+  transition: transform .25s ease, background-color .25s ease;
+}
+.ticket::before { content: '✶'; font-size: 18px; }
+.ticket:hover { background: var(--lime); transform: rotate(-2deg) translateY(-2px); }
+.ticket.alt { background: var(--teal); }
+.ticket.alt2 { background: var(--magenta); color: #fff; }
+.ticket.alt2:hover { color: var(--ink); }
+
+/* ==========================================================
+   Page chrome helpers
+   ========================================================== */
+main { position: relative; z-index: 1; }
+.page-head { padding-block: 64px 24px; }
+.page-head h1 { font-size: clamp(52px, 9vw, 120px); }
+.page-head .lede { font-size: 22px; max-width: 34em; color: var(--ink-soft); }
+.term-label { font-family: var(--font-term); font-size: 22px; letter-spacing: .06em; text-transform: uppercase; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-dose-chosen]) * { animation: none !important; transition: none !important; }
+}

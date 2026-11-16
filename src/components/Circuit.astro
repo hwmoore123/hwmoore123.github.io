@@ -1,0 +1,25 @@
+---
+// Circuit-board trace divider with gold solder dots.
+---
+<div class="circuit" role="separator" aria-hidden="true">
+  <svg viewBox="0 0 1200 48" preserveAspectRatio="xMidYMid slice">
+    <g fill="none" stroke="#2F6B3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 24 H180 L200 10 H340 L360 24 H520 L540 38 H660 L680 24 H860 L880 10 H1000 L1020 24 H1200" />
+      <path d="M0 38 H120 L134 24 M240 10 V0 M600 38 V48 M760 24 L774 38 H940 M1100 24 V48" opacity=".6" />
+    </g>
+    <g fill="#D9A53A" stroke="#7a5a1c" stroke-width="1.5">
+      {[180, 200, 340, 360, 520, 540, 660, 680, 860, 880, 1000, 1020].map((x, i) => (
+        <circle cx={x} cy={[24, 10, 10, 24, 24, 38, 38, 24, 24, 10, 10, 24][i]} r="5" />
+      ))}
+      <circle cx="134" cy="24" r="4" /><circle cx="774" cy="38" r="4" /><circle cx="940" cy="38" r="4" />
+    </g>
+    <g fill="#23170D">
+      <rect x="420" y="16" width="60" height="16" rx="2" />
+      <rect x="1060" y="18" width="28" height="12" rx="2" />
+    </g>
+  </svg>
+</div>
+<style>
+  .circuit { height: 48px; margin-block: 24px; }
+  .circuit svg { width: 100%; height: 48px; display: block; }
+</style>

@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import Circuit from '../../components/Circuit.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', (n) => !n.data.draft);
+  return notes.map((n) => ({ params: { slug: n.id }, props: { note: n } }));
+}
+const { note } = Astro.props;
+const { Content } = await render(note);
+const date = note.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<Base title={note.data.title} page="notes" description={note.data.blurb}>
+  <article class="wrap sheet">
+    <p class="term-label">Track {String(note.data.track).padStart(2, '0')} · {note.data.kind} · <time datetime={note.data.date.toISOString()}>{date}</time></p>
+    <h1 class="display">{note.data.title}</h1>
+    <p class="blurb">{note.data.blurb}</p>
+    <Circuit />
+    <div class="prose"><Content /></div>
+    <p class="back"><a href="/notes/">← Back to the tracklist</a></p>
+  </article>
+</Base>
+
+<style>
+  .sheet {
+    max-width: 780px; margin: 56px auto 90px; padding: 40px clamp(20px, 5vw, 56px);
+    background: #F4ECDA; border: 3px solid var(--ink); border-radius: 4px;
+    box-shadow: 10px 10px 0 var(--magenta);
+    animation: sleeve .9s cubic-bezier(.2, .9, .3, 1) both;
+  }
+  @keyframes sleeve { from { transform: translateX(-40px) rotate(-1deg); opacity: 0; } }
+  :global(html[data-dose='sober']) .sheet { animation: none; }
+  .term-label { color: var(--violet); margin: 0 0 8px; }
+  h1 { font-size: clamp(32px, 5vw, 52px); color: var(--ink); }
+  .blurb { font-style: italic; color: var(--ink-soft); }
+  .prose { max-width: 65ch; }
+  .prose :global(h2) { font-family: var(--font-display); font-weight: 400; margin-top: 1.4em; }
+  .prose :global(code) { font-family: var(--font-term); font-size: 1.1em; background: var(--crt); color: var(--phosphor); padding: 0 4px; border-radius: 3px; }
+  .back { margin-top: 2em; font-family: var(--font-term); font-size: 22px; }
+</style>

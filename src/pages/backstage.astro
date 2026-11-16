@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Fill these in when they're ready to be public. Empty strings show as "soon".
+const EMAIL = 'hwmoore@mit.edu';
+const GITHUB = ''; // e.g. 'https://github.com/your-handle'
+const LINKEDIN = ''; // e.g. 'https://www.linkedin.com/in/your-handle'
+const RESUME = '/wood-moore-resume.pdf'; // drop the PDF into /public
+
+const access = [
+  { k: 'EMAIL', v: EMAIL, href: `mailto:${EMAIL}` },
+  { k: 'GITHUB', v: GITHUB.replace(/^https?:\/\//, ''), href: GITHUB },
+  { k: 'LINKEDIN', v: LINKEDIN.replace(/^https?:\/\/(www\.)?/, ''), href: LINKEDIN },
+];
+---
+<Base title="Backstage" page="backstage" description="Contact Wood Moore.">
+  <header class="wrap page-head">
+    <p class="term-label">Side D · Backstage</p>
+    <h1 class="display vibe-ov drift">Get backstage.</h1>
+    <p class="lede">All-access. Say hi.</p>
+  </header>
+
+  <div class="wrap grid stage">
+    <div class="hang" style="grid-column: span 6">
+      <div class="lanyard" aria-hidden="true"></div>
+      <div class="pass" id="pass">
+        <div class="clip" aria-hidden="true"></div>
+        <div class="laminate">
+          <div class="pass-top">
+            <span class="all">ALL ACCESS</span>
+            <span class="tour">Math, Markets &amp; Miles Tour · 2026</span>
+          </div>
+          <p class="who display">Wood Moore</p>
+          <dl>
+            {access.map((a) => (
+              <div class="line">
+                <dt>{a.k}</dt>
+                <dd>{a.href ? <a href={a.href} rel={a.k === 'EMAIL' ? undefined : 'me noopener'}>{a.v}</a> : <span class="soon">soon</span>}</dd>
+              </div>
+            ))}
+          </dl>
+          <div class="barcode" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side" style="grid-column: 8 / span 5">
+      <a class="resume" href={RESUME} download>
+        <span class="r-top">ADMIT ONE · RÉSUMÉ</span>
+        <span class="r-main display">Download the résumé</span>
+        <span class="r-bot">PDF · printed ticket · general admission</span>
+      </a>
+      <p class="note">Interested in ML research, quant, and software roles. The fastest way to reach me is email.</p>
+    </div>
+  </div>
+
+  <script>
+    import { getDose } from '../scripts/dose';
+    const pass = document.getElementById('pass');
+    if (pass) {
+      let th = 0, w = 0, raf = 0, lastX: number | null = null, lastT = 0;
+      const step = () => {
+        // damped pendulum
+        const dt = 1 / 60;
+        w += (-38 * th - 3.2 * w) * dt;
+        th += w * dt;
+        pass.style.transform = `rotate(${th.toFixed(3)}rad)`;
+        if (Math.abs(th) > 0.0005 || Math.abs(w) > 0.0005) raf = requestAnimationFrame(step);
+        else { raf = 0; pass.style.transform = ''; }
+      };
+      pass.addEventListener('pointermove', (e) => {
+        if (getDose() === 'sober') return;
+        const now = performance.now();
+        if (lastX !== null && now - lastT < 100) {
+          const vx = (e.clientX - lastX) / Math.max(now - lastT, 1);
+          w += vx * (getDose() === 'trip' ? 0.9 : 0.45);
+          w = Math.max(-4, Math.min(4, w));
+          if (!raf) raf = requestAnimationFrame(step);
+        }
+        lastX = e.clientX; lastT = now;
+      });
+      pass.addEventListener('pointerleave', () => (lastX = null));
+    }
+  </script>
+</Base>
+
+<style>
+  .stage { align-items: start; padding-bottom: 100px; }
+  .hang { display: flex; flex-direction: column; align-items: center; }
+  .lanyard {
+    width: 26px; height: 120px; margin-top: -40px;
+    background: var(--rainbow-h);
+    border-radius: 0 0 4px 4px;
+  }
+  .pass { width: min(380px, 100%); transform-origin: 50% -20px; will-change: transform; }
+  .clip { width: 46px; height: 26px; margin: -4px auto 0; background: linear-gradient(#ccc, #888); border-radius: 6px 6px 3px 3px; border: 2px solid #555; position: relative; z-index: 2; }
+  .laminate {
+    margin-top: -6px; padding: 18px 20px 16px;
+    background: linear-gradient(135deg, #fff6 0 20%, transparent 40% 70%, #fff4 85%), var(--beige);
+    border: 3px solid var(--ink); border-radius: 16px;
+    box-shadow: 0 0 0 8px #ffffff55, 10px 14px 0 var(--violet);
+  }
+  .pass-top { display: flex; flex-direction: column; gap: 4px; padding: 10px; background: var(--magenta); border: 2px solid var(--ink); border-radius: 8px; }
+  .all { font-family: var(--font-display); font-size: 36px; line-height: 1; color: var(--lime); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; }
+  .tour { font-family: var(--font-term); font-size: 18px; color: #fff; letter-spacing: .05em; }
+  .who { font-size: 40px; margin: 14px 0 6px; color: var(--ink); }
+  dl { margin: 0; }
+  .line { display: grid; grid-template-columns: 96px 1fr; gap: 8px; padding: 8px 0; border-top: 2px dashed var(--beige-3); align-items: baseline; }
+  dt { font-family: var(--font-term); font-size: 20px; color: var(--violet); letter-spacing: .08em; }
+  dd { margin: 0; overflow-wrap: anywhere; }
+  .soon { font-family: var(--font-term); font-size: 20px; color: var(--ink-soft); }
+  .barcode { height: 40px; margin-top: 10px; background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px, var(--ink) 5px 9px, transparent 9px 11px); border-radius: 2px; }
+
+  .resume {
+    display: grid; gap: 6px; text-decoration: none; color: var(--ink);
+    padding: 22px 26px; background: var(--orange); border: 3px dashed var(--ink); border-radius: 10px;
+    box-shadow: 8px 8px 0 var(--ink); transition: transform .25s ease, background .25s;
+  }
+  .resume:hover { transform: rotate(-1.5deg); background: var(--lime); }
+  .r-top, .r-bot { font-family: var(--font-term); font-size: 19px; letter-spacing: .08em; }
+  .r-main { font-size: clamp(28px, 3.4vw, 38px); line-height: 1.05; }
+  .note { margin-top: 26px; }
+</style>

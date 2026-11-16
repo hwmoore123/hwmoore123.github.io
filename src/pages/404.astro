@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Lost" page="404">
+  <section class="wrap lost">
+    <p class="code crt">ERROR 404 · SECTION NOT FOUND</p>
+    <h1 class="display vibe-ml drift">Wrong turn at the parking lot.</h1>
+    <p class="lede">The show’s this way.</p>
+    <a class="ticket" href="/">Back to the poster</a>
+  </section>
+</Base>
+<style>
+  .lost { padding-block: 90px 140px; text-align: center; }
+  .code { display: inline-block; padding: 6px 14px; border-radius: 6px; font-size: 22px; }
+  h1 { font-size: clamp(44px, 8vw, 96px); margin-top: 20px; }
+  .lede { font-size: 24px; }
+</style>

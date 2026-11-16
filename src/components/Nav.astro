@@ -1,0 +1,60 @@
+---
+interface Props { current?: string }
+const { current = '' } = Astro.props;
+const items = [
+  { href: '/', key: 'home', label: 'Play', glyph: '▶' },
+  { href: '/about/', key: 'about', label: 'About', glyph: '◉' },
+  { href: '/setlist/', key: 'setlist', label: 'Setlist', glyph: '≡' },
+  { href: '/notes/', key: 'notes', label: 'Notes', glyph: '♪' },
+  { href: '/backstage/', key: 'backstage', label: 'Backstage', glyph: '✦' },
+];
+---
+<header class="deck">
+  <div class="stripe-h" aria-hidden="true"></div>
+  <nav class="strip wood" aria-label="Main">
+    <div class="wrap inner">
+      <a class="brand" href="/" aria-label="Wood Moore, home">WM<span aria-hidden="true">·</span><small>HiFi-29</small></a>
+      <ul>
+        {items.map((i) => (
+          <li>
+            <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>
+              <span class="glyph" aria-hidden="true">{i.glyph}</span>{i.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .deck { position: relative; z-index: 20; }
+  .deck .stripe-h { height: 12px; background: var(--rainbow); }
+  .strip { border-bottom: 3px solid var(--walnut-dark); box-shadow: 0 4px 0 rgba(0,0,0,.15); }
+  .inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; flex-wrap: wrap; padding-block: 8px; }
+  .brand {
+    font-family: var(--font-display); font-size: 28px; color: var(--beige); text-decoration: none; line-height: 1;
+  }
+  .brand span { color: var(--magenta); }
+  .brand small { font-family: var(--font-term); font-size: 16px; color: var(--gold); margin-left: 6px; letter-spacing: .1em; }
+  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+  ul a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-term); font-size: 22px; line-height: 1; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    background: linear-gradient(180deg, #F2E8D2, var(--beige-3));
+    border: 2px solid var(--walnut-dark); border-radius: 4px;
+    padding: 7px 12px 6px;
+    box-shadow: 0 3px 0 var(--walnut-dark), inset 0 1px 0 #fff8;
+    transition: transform .08s, box-shadow .08s;
+  }
+  ul a:hover { background: linear-gradient(180deg, #F7FFE6, var(--lime)); }
+  ul a:active, ul a[aria-current='page'] { transform: translateY(3px); box-shadow: 0 0 0 var(--walnut-dark), inset 0 2px 4px #0004; }
+  ul a[aria-current='page'] { background: linear-gradient(180deg, #FFD7EA, var(--magenta)); color: #fff; text-shadow: 1px 1px 0 var(--violet); }
+  .glyph { font-size: 16px; }
+  @media (max-width: 560px) {
+    .inner { justify-content: center; }
+    ul { justify-content: center; }
+    ul a { font-size: 19px; padding: 6px 9px 5px; }
+  }
+</style>

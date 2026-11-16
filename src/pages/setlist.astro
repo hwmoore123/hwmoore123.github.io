@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import Poster from '../components/Poster.astro';
+import Circuit from '../components/Circuit.astro';
+
+type Song = {
+  n: string; title: string; sub: string; years: string; role: string; blurb: string;
+  motif: 'mantis' | 'mandala' | 'candles' | 'spiral' | 'sun'; tags: string[]; link?: { href: string; label: string };
+};
+const songs: Song[] = [
+  {
+    n: '1', title: 'Mantis', sub: 'news that moves markets', years: '2026–now',
+    role: 'ML Researcher · MIT CSAIL, Kellis Lab', motif: 'mantis',
+    blurb: 'Links large-scale financial news to tickers, then tests whether sentiment, topic and novelty predict anything beyond market data alone. Gradient-boosted models, judged strictly out-of-sample.',
+    tags: ['Python', 'NLP', 'LightGBM', 'Out-of-sample testing'],
+  },
+  {
+    n: '2', title: 'Weighted PALU', sub: 'the shape of Internet traffic', years: '2026',
+    role: 'Math & ML Researcher · Lincoln Lab Supercomputing Center', motif: 'mandala',
+    blurb: 'Modeled Internet traffic networks and validated the model against empirical network data. Published at IEEE MIT URTC 2026.',
+    tags: ['Network science', 'Graph models', 'Empirical validation'],
+    link: { href: 'https://arxiv.org/abs/2611.09575', label: 'Read the paper (arXiv:2611.09575)' },
+  },
+  {
+    n: '3', title: 'IMC Prosperity 4', sub: 'a trading system, solo', years: '2026',
+    role: 'Solo competitor', motif: 'candles',
+    blurb: 'A Python trading system built on market making, ETF arbitrage, options pricing and mean reversion. Finished in the top 20% and made the Final Round.',
+    tags: ['Python', 'Market making', 'Options pricing', 'Arbitrage'],
+  },
+  {
+    n: '4', title: 'Runner Development App', sub: 'less admin, more miles', years: '2024–25',
+    role: 'Full-stack developer', motif: 'spiral',
+    blurb: 'A React, Remix and TypeScript app that puts athlete data in one place and cuts the admin work coaches do every week.',
+    tags: ['React', 'Remix', 'TypeScript'],
+  },
+];
+---
+<Base title="Setlist" page="setlist" description="Projects by Wood Moore: Mantis, Weighted PALU, IMC Prosperity 4, and a runner development app.">
+  <header class="wrap page-head">
+    <p class="term-label">Side B · Setlist</p>
+    <h1 class="display vibe-ml drift">The setlist.</h1>
+    <p class="lede">Tonight’s set, in the order it was played.</p>
+  </header>
+
+  <ol class="wrap songs">
+    {songs.map((s) => (
+      <li class="stub" tabindex="-1">
+        <div class="art"><Poster motif={s.motif} title={s.title} /></div>
+        <div class="body">
+          <p class="meta term-label"><span class="no">Song {s.n}</span> · {s.years}</p>
+          <h2><span class="display">{s.title}</span><span class="sub">{s.sub}</span></h2>
+          <p class="role">{s.role}</p>
+          <p>{s.blurb}</p>
+          <ul class="tags">{s.tags.map((t) => <li>{t}</li>)}</ul>
+          {s.link && <a class="more" href={s.link.href} rel="noopener">{s.link.label} ↗</a>}
+        </div>
+        <div class="tear" aria-hidden="true">
+          <span>ADMIT ONE</span><span class="num">No. 00{s.n}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <div class="wrap"><Circuit /></div>
+
+  <section class="wrap encore" aria-labelledby="encore-h">
+    <div class="stub big">
+      <div class="art"><Poster motif="sun" title="The 3200m" /></div>
+      <div class="body">
+        <p class="meta term-label"><span class="no">Encore</span> · 2024</p>
+        <h2 id="encore-h"><span class="display">The 3200m</span><span class="sub">eight laps, all heart</span></h2>
+        <p class="role">Runner</p>
+        <p>NHSTFXCCA All-American in the 3200m. Three-time state runner-up. Wesleyan School record holder. Now running varsity cross country and track at MIT.</p>
+      </div>
+      <div class="tear" aria-hidden="true"><span>ENCORE</span><span class="num">No. ∞</span></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .songs { list-style: none; padding-block: 8px 20px; margin: 0 auto; display: grid; gap: 34px; }
+  .stub {
+    position: relative;
+    display: grid; grid-template-columns: minmax(180px, 280px) 1fr 70px; gap: 0;
+    background: #F4ECDA;
+    border: 3px solid var(--ink); border-radius: 12px;
+    box-shadow: 8px 8px 0 var(--violet);
+    overflow: hidden;
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .stub:nth-child(even) { box-shadow: 8px 8px 0 var(--orange); }
+  .stub:hover { transform: rotate(-.4deg) translateY(-3px); box-shadow: 12px 12px 0 var(--magenta); }
+  .art { padding: 16px; background: var(--ink); }
+  .body { padding: 20px 26px; }
+  .meta { margin: 0; color: var(--violet); }
+  .no { color: var(--ink); background: var(--lime); padding: 0 6px; border-radius: 3px; }
+  h2 { margin: 4px 0 2px; }
+  h2 .display { display: block; font-size: clamp(34px, 4.4vw, 52px); color: var(--ink); }
+  h2 .sub { display: block; font-family: var(--font-body); font-style: italic; font-weight: 500; font-size: 20px; color: var(--ink-soft); margin-top: 4px; }
+  .role { font-family: var(--font-term); font-size: 20px; color: var(--walnut); margin-bottom: .6em; }
+  .tags { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags li { font-family: var(--font-term); font-size: 18px; padding: 2px 10px; border: 2px solid var(--ink); border-radius: 999px; background: var(--beige); }
+  .more { font-weight: 600; }
+  .tear {
+    border-left: 3px dashed var(--ink);
+    background: var(--magenta); color: #fff;
+    writing-mode: vertical-rl; text-orientation: mixed;
+    display: flex; justify-content: space-between; align-items: center; padding: 16px 0;
+    font-family: var(--font-term); font-size: 22px; letter-spacing: .2em;
+  }
+  .stub:nth-child(even) .tear { background: var(--teal); color: var(--ink); }
+  .tear .num { letter-spacing: .05em; }
+  .encore { padding-bottom: 80px; }
+  .big .tear { background: var(--orange); color: var(--ink); }
+  @media (max-width: 760px) {
+    .stub { grid-template-columns: 1fr; }
+    .art { padding: 12px; }
+    .art :global(.poster) { max-width: 320px; margin-inline: auto; }
+    .tear { writing-mode: horizontal-tb; border-left: 0; border-top: 3px dashed var(--ink); padding: 8px 16px; font-size: 18px; }
+  }
+</style>

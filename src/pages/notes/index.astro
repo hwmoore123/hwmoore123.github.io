@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const notes = (await getCollection('notes', (n) => !n.data.draft)).sort((a, b) => a.data.track - b.data.track);
+const upcoming = ['Mantis research log', 'Markets, slowly', 'Thoughts from mile 10'];
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+---
+<Base title="Liner notes" page="notes" description="Papers, research logs and writing by Wood Moore.">
+  <header class="wrap page-head">
+    <p class="term-label">Side C · Liner notes</p>
+    <h1 class="display vibe-lm drift">Liner notes.</h1>
+    <p class="lede">Liner notes: papers, research logs, and thoughts from mile 10.</p>
+  </header>
+
+  <div class="wrap grid record">
+    <div class="sleeve-wrap" style="grid-column: span 5" aria-hidden="true">
+      <div class="vinyl"><div class="label">WM<br /><small>33⅓</small></div></div>
+      <div class="sleeve">
+        <svg viewBox="0 0 300 300">
+          <rect width="300" height="300" fill="#FF8A1E" />
+          {Array.from({ length: 12 }, (_, i) => (
+            <circle cx="150" cy="150" r={140 - i * 11} fill={['#7B2CFF', '#FF2E97', '#FF8A1E', '#B6FF3B'][i % 4]} />
+          ))}
+          <path d="M40 150 Q150 40 260 150 Q150 260 40 150 Z" fill="#E8DCC4" stroke="#23170D" stroke-width="6" />
+          <circle cx="150" cy="150" r="42" fill="#00C2B8" stroke="#23170D" stroke-width="6" />
+          <circle cx="150" cy="150" r="18" fill="#23170D" />
+          <circle cx="160" cy="140" r="6" fill="#E8DCC4" />
+          <text x="150" y="282" text-anchor="middle" font-family="Shrikhand, serif" font-size="28" fill="#23170D">Liner Notes</text>
+        </svg>
+      </div>
+    </div>
+
+    <section class="tracks crt" style="grid-column: 7 / span 6" aria-labelledby="tl">
+      <h2 id="tl" class="tl">Tracklist</h2>
+      <ol>
+        {notes.map((n) => (
+          <li>
+            <span class="no">{String(n.data.track).padStart(2, '0')}</span>
+            <div>
+              <a href={`/notes/${n.id}/`}>{n.data.title}</a>
+              <p>{n.data.kind.toUpperCase()} · {fmt(n.data.date)} · {n.data.blurb}</p>
+            </div>
+          </li>
+        ))}
+        {upcoming.map((u, i) => (
+          <li class="soon">
+            <span class="no">{String(notes.length + i + 1).padStart(2, '0')}</span>
+            <div><span>{u}</span><p>COMING SOON</p></div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .record { align-items: center; padding-bottom: 90px; }
+  .sleeve-wrap { position: relative; aspect-ratio: 1; max-width: 440px; width: 100%; }
+  .sleeve { position: absolute; inset: 0; z-index: 2; border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--violet); background: var(--orange); }
+  .sleeve svg { display: block; width: 100%; height: 100%; }
+  .vinyl {
+    position: absolute; inset: 3%; border-radius: 50%; z-index: 1;
+    background: repeating-radial-gradient(circle, #111 0 2px, #222 2px 4px);
+    display: grid; place-items: center;
+    transform: translateX(38%);
+    animation: slide 1.6s cubic-bezier(.2, .9, .3, 1) both, spin 6s linear 1.6s infinite;
+  }
+  .label {
+    width: 34%; aspect-ratio: 1; border-radius: 50%; background: var(--magenta);
+    display: grid; place-items: center; text-align: center;
+    font-family: var(--font-display); color: var(--beige); font-size: 22px; line-height: .9;
+  }
+  .label small { font-family: var(--font-term); font-size: 14px; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(38%); } }
+  @keyframes spin { from { transform: translateX(38%) rotate(0); } to { transform: translateX(38%) rotate(360deg); } }
+  :global(html[data-dose='sober']) .vinyl { animation: none; }
+  :global(html[data-dose='trip']) .vinyl { animation-duration: 1.2s, 2.2s; }
+
+  .tracks { padding: 22px 24px; border-radius: 10px; border: 4px solid var(--walnut); }
+  .tl { font-family: var(--font-term); font-weight: 400; font-size: 30px; color: var(--lime); margin: 0 0 10px; letter-spacing: .1em; text-transform: uppercase; }
+  ol { list-style: none; margin: 0; padding: 0; }
+  li { display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 12px 0; border-top: 1px dashed #33ff6640; }
+  .no { font-size: 28px; color: var(--orange); }
+  li a, li span:not(.no) { font-size: 26px; line-height: 1.1; color: var(--phosphor); text-decoration-color: var(--magenta); }
+  li a:hover { color: var(--lime); }
+  li p { margin: 4px 0 0; font-size: 18px; color: #E8DCC4cc; }
+  .soon span, .soon .no { opacity: .55; }
+  @media (max-width: 760px) { .sleeve-wrap { max-width: 300px; margin: 0 auto 0 0; } }
+</style>

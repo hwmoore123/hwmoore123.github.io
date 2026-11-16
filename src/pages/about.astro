@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+import Terminal from '../components/Terminal.astro';
+import Circuit from '../components/Circuit.astro';
+
+const boot = [
+  '> POWER ON .............. OK',
+  '> MEMORY TEST 4096K ..... OK',
+  '> LOADING WOOD_MOORE.... OK',
+  '> MAJOR: CS + ECON + MATH',
+  '> CLASS: MIT 2029',
+  '> STATUS: RESEARCHING, RUNNING',
+];
+const bio = [
+  "Hi, I'm Wood.",
+  "I study computer science, economics, and data science & applied math at MIT.",
+  "At the Kellis Lab in CSAIL I build Mantis. It reads financial news at scale and asks one question: do the words know something the prices don't?",
+  "At Lincoln Lab I modeled the shape of Internet traffic and checked it against the real thing.",
+  "Off the keyboard, I run. Mostly the 3200m. Mostly far.",
+  "> READY_",
+];
+const tour = [
+  { date: '2024', city: 'NHSTFXCCA', what: 'All-American · 3200m' },
+  { date: '3×', city: 'State meet', what: 'Runner-up' },
+  { date: 'HS', city: 'Wesleyan School', what: 'School record holder' },
+  { date: 'Now', city: 'MIT', what: 'Varsity XC & track' },
+];
+---
+<Base title="The garage" page="about" description="About Wood Moore: MIT CS, economics and applied math; ML researcher; All-American distance runner.">
+  <div class="garage">
+    <header class="wrap page-head">
+      <p class="term-label">Side A · The garage</p>
+      <h1 class="display vibe-ov drift">Visit the garage.</h1>
+      <p class="lede">Every good machine starts on a workbench. This one has a keyboard, a pegboard, and running shoes under the desk.</p>
+    </header>
+
+    <div class="wrap grid bench-area">
+      <section class="bench" style="grid-column: span 7" aria-label="Bio">
+        <Terminal boot={boot} bio={bio} />
+        <div class="workbench wood" aria-hidden="true">
+          <span class="solder"></span><span class="disk">3½"</span>
+        </div>
+      </section>
+
+      <aside class="pegboard" style="grid-column: 8 / span 5" aria-label="Pinned to the pegboard">
+        <figure class="polaroid pin">
+          <!-- Replace with your own photo posterized into 4–5 flat colors, e.g. /images/wood-posterized.webp -->
+          <svg viewBox="0 0 200 220" role="img" aria-label="Placeholder for a posterized self-portrait">
+            <rect width="200" height="220" fill="#7B2CFF" />
+            <circle cx="100" cy="90" r="78" fill="#FF8A1E" />
+            <circle cx="100" cy="90" r="56" fill="#FF2E97" />
+            <path d="M100 66 c18 0 30 14 30 32 s-12 34 -30 34 s-30 -16 -30 -34 s12 -32 30 -32 Z" fill="#23170D" />
+            <path d="M40 220 c6 -50 30 -76 60 -76 s54 26 60 76 Z" fill="#23170D" />
+            <path d="M74 92 h52" stroke="#B6FF3B" stroke-width="6" />
+          </svg>
+          <figcaption>self-portrait · developing…</figcaption>
+        </figure>
+
+        <section class="tour pin" aria-labelledby="tour-h">
+          <h2 id="tour-h" class="term-label">Tour dates</h2>
+          <p class="tour-lede">3200m, All-American, 2024. Still on the road.</p>
+          <ul>
+            {tour.map((t) => (
+              <li><span class="d">{t.date}</span><span class="c">{t.city}</span><span class="w">{t.what}</span></li>
+            ))}
+          </ul>
+        </section>
+
+        <div class="pennant pin">
+          <svg viewBox="0 0 320 120" role="img" aria-label="Pennant: State math team champions, 2024">
+            <path d="M8 10 L312 60 L8 110 Z" fill="#FF8A1E" stroke="#23170D" stroke-width="4" stroke-linejoin="round" />
+            <rect x="0" y="6" width="14" height="108" rx="3" fill="#5C3A21" />
+            <text x="40" y="56" font-family="Shrikhand, serif" font-size="30" fill="#23170D">State Math</text>
+            <text x="40" y="84" font-family="VT323, monospace" font-size="22" fill="#23170D">TEAM CHAMPS · 2024</text>
+            <text x="250" y="66" font-size="24" fill="#7B2CFF">∑</text>
+          </svg>
+        </div>
+      </aside>
+    </div>
+
+    <div class="wrap"><Circuit /></div>
+
+    <section class="wrap grid facts" aria-label="Quick facts">
+      <div style="grid-column: span 4">
+        <h2 class="display vibe-ml">Studying</h2>
+        <p>Computer science, economics, and data science &amp; applied math. MIT, Class of 2029.</p>
+      </div>
+      <div style="grid-column: span 4">
+        <h2 class="display vibe-ml">Researching</h2>
+        <p>ML for financial news at MIT CSAIL (Kellis Lab). Before that, network models at the Lincoln Lab Supercomputing Center.</p>
+      </div>
+      <div style="grid-column: span 4">
+        <h2 class="display vibe-ml">Running</h2>
+        <p>Distance on MIT varsity cross country and track. Favorite unit of time: one lap.</p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .garage {
+    padding-bottom: 80px;
+    background-color: var(--beige);
+  }
+  .bench-area { align-items: start; }
+  .workbench {
+    height: 40px; margin: 22px -12px 0; border-radius: 6px; position: relative;
+    border: 3px solid var(--walnut-dark); box-shadow: 0 12px 0 var(--walnut-dark);
+  }
+  .solder { position: absolute; left: 24px; top: 12px; width: 60px; height: 10px; border-radius: 6px; background: #999; box-shadow: 64px 0 0 -2px var(--gold); }
+  .disk {
+    position: absolute; right: 30px; top: -26px; width: 44px; height: 44px;
+    background: #23170D; color: var(--beige); font-family: var(--font-term); font-size: 14px;
+    display: grid; place-items: end center; padding-bottom: 2px; transform: rotate(-8deg);
+    box-shadow: inset 0 9px 0 -2px #777;
+  }
+
+  .pegboard {
+    position: relative; padding: 26px 22px 30px;
+    background-color: #C9A979;
+    background-image: radial-gradient(#5C3A21 2.6px, transparent 3.2px);
+    background-size: 26px 26px; background-position: 13px 13px;
+    border: 6px solid var(--walnut); border-radius: 6px;
+    display: grid; gap: 26px;
+  }
+  .pin { position: relative; }
+  .pin::before {
+    content: ''; position: absolute; top: -8px; left: 50%; width: 16px; height: 16px; margin-left: -8px; z-index: 2;
+    border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff9, var(--magenta) 45%, #7a0a42);
+    box-shadow: 0 3px 3px #0006;
+  }
+  .polaroid { margin: 0 auto; width: min(240px, 80%); background: #F7F1E3; padding: 10px 10px 4px; transform: rotate(-3deg); box-shadow: 0 8px 14px #0005; }
+  .polaroid svg { display: block; width: 100%; }
+  .polaroid figcaption { font-family: var(--font-term); font-size: 18px; text-align: center; color: var(--ink-soft); }
+
+  .tour { background: var(--crt); color: var(--phosphor); padding: 14px 16px; border-radius: 6px; transform: rotate(1.5deg); box-shadow: 0 8px 14px #0005; font-family: var(--font-term); }
+  .tour h2 { margin: 0; color: var(--lime); font-size: 26px; }
+  .tour-lede { font-size: 19px; margin: 0 0 8px; color: #33ff66cc; }
+  .tour ul { list-style: none; margin: 0; padding: 0; }
+  .tour li { display: grid; grid-template-columns: 52px 1fr; gap: 0 10px; padding: 6px 0; border-top: 1px dashed #33ff6640; font-size: 20px; line-height: 1.15; }
+  .tour .d { color: var(--orange); grid-row: span 2; }
+  .tour .w { color: #E8DCC4; }
+
+  .pennant { transform: rotate(-4deg); }
+  .pennant svg { display: block; width: 100%; filter: drop-shadow(0 6px 6px #0005); }
+
+  .facts { margin-top: 10px; }
+  .facts h2 { font-size: 40px; }
+</style>

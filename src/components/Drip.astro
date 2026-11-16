@@ -1,0 +1,29 @@
+---
+// Melting edge: the section above drips into the one below.
+interface Props { color?: string; flip?: boolean }
+const { color = 'var(--violet)' } = Astro.props;
+const drips = [
+  { x: 60, w: 34, h: 70 }, { x: 190, w: 22, h: 110 }, { x: 300, w: 40, h: 55 },
+  { x: 470, w: 26, h: 130 }, { x: 610, w: 44, h: 75 }, { x: 760, w: 20, h: 100 },
+  { x: 880, w: 36, h: 60 }, { x: 1030, w: 28, h: 120 }, { x: 1140, w: 30, h: 65 },
+];
+---
+<div class="drip" aria-hidden="true" style={`--c:${color}`}>
+  <svg viewBox="0 0 1200 150" preserveAspectRatio="none">
+    <path d="M0 0 H1200 V26 C1100 40 1000 18 900 30 C780 44 700 20 600 34 C480 48 400 18 300 32 C200 44 100 22 0 34 Z" />
+    {drips.map((d, i) => (
+      <g class="d" style={`animation-delay:${-i * 1.7}s; transform-origin:${d.x}px 20px`}>
+        <path d={`M${d.x - d.w / 2} 20 C${d.x - d.w / 2} ${d.h * 0.6}, ${d.x - d.w / 4} ${d.h - 6}, ${d.x} ${d.h} C${d.x + d.w / 4} ${d.h - 6}, ${d.x + d.w / 2} ${d.h * 0.6}, ${d.x + d.w / 2} 20 Z`} />
+        <circle cx={d.x} cy={d.h - d.w * 0.3} r={d.w * 0.42} />
+      </g>
+    ))}
+  </svg>
+</div>
+<style>
+  .drip { position: relative; height: 0; z-index: 3; }
+  .drip svg { position: absolute; left: 0; top: -2px; width: 100%; height: clamp(70px, 10vw, 150px); fill: var(--c); overflow: visible; }
+  .d { animation: ooze 11s ease-in-out infinite; }
+  @keyframes ooze { 0%, 100% { transform: scaleY(.55); } 50% { transform: scaleY(1.08); } }
+  :global(html[data-dose='trip']) .d { animation-duration: 5s; }
+  :global(html[data-dose='sober']) .d { animation: none; transform: scaleY(.8); }
+</style>
