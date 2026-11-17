@@ -3,14 +3,13 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const notes = (await getCollection('notes', (n) => !n.data.draft)).sort((a, b) => a.data.track - b.data.track);
-const upcoming = ['Mantis research log', 'Markets, slowly', 'Thoughts from mile 10'];
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 ---
 <Base title="Publications" page="publications" description="Publications, papers and research notes by Wood Moore.">
   <header class="wrap page-head">
     <p class="term-label">Publications</p>
     <h1 class="display vibe-lm drift">Publications.</h1>
-    <p class="lede">Papers, research logs, and thoughts from mile 10.</p>
+    <p class="lede">Peer-reviewed papers and preprints.</p>
   </header>
 
   <div class="wrap grid record">
@@ -40,12 +39,6 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
               <a href={`/publications/${n.id}/`}>{n.data.title}</a>
               <p>{n.data.kind.toUpperCase()} · {fmt(n.data.date)} · {n.data.blurb}</p>
             </div>
-          </li>
-        ))}
-        {upcoming.map((u, i) => (
-          <li class="soon">
-            <span class="no">{String(notes.length + i + 1).padStart(2, '0')}</span>
-            <div><span>{u}</span><p>COMING SOON</p></div>
           </li>
         ))}
       </ol>
@@ -84,6 +77,5 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
   li a, li span:not(.no) { font-size: 26px; line-height: 1.1; color: var(--phosphor); text-decoration-color: var(--magenta); }
   li a:hover { color: var(--lime); }
   li p { margin: 4px 0 0; font-size: 18px; color: #E8DCC4cc; }
-  .soon span, .soon .no { opacity: .55; }
   @media (max-width: 760px) { .sleeve-wrap { max-width: 300px; margin: 0 auto 0 0; } }
 </style>

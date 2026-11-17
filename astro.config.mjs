@@ -10,9 +10,10 @@ export default defineConfig({
     '/backstage': '/contact/',
     '/notes': '/publications/',
     '/notes/weighted-palu': '/publications/weighted-palu/',
-    '/notes/soundcheck': '/publications/soundcheck/',
+    '/notes/soundcheck': '/publications/',
     '/writing': '/publications/',
+    '/publications/soundcheck': '/publications/',
     '/writing/weighted-palu': '/publications/weighted-palu/',
-    '/writing/soundcheck': '/publications/soundcheck/',
+    '/writing/soundcheck': '/publications/',
   },
 });
