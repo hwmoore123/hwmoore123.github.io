@@ -2,7 +2,7 @@
 // Original psychedelic bears. Front-facing, chunky, spiral-eyed — deliberately nothing like
 // any band's marching side-profile bears. Fur is a repeating rainbow-ring gradient.
 interface Props {
-  variant: 'code' | 'run' | 'math' | 'market' | 'head';
+  variant: 'code' | 'run' | 'math' | 'market' | 'head' | 'sit' | 'wave' | 'dance' | 'stand';
   uid: string;
   fur?: string[];
   label: string;
@@ -65,7 +65,7 @@ const vb = isHead ? '0 0 200 170' : '0 0 220 280';
         <ellipse cx="100" cy="190" rx="62" ry="58" fill={`url(#fur-${uid})`} />
         <ellipse cx="100" cy="198" rx="38" ry="38" fill={`url(#belly-${uid})`} />
         {/* arms */}
-        {variant === 'math' && (
+        {(variant === 'math' || variant === 'dance') && (
           <g>
             <path d="M44 170 C24 140 22 112 30 96" fill="none" stroke="#23170D" stroke-width="32" />
             <path d="M44 170 C24 140 22 112 30 96" fill="none" stroke={`url(#fur-${uid})`} stroke-width="24" />
@@ -81,7 +81,26 @@ const vb = isHead ? '0 0 200 170' : '0 0 220 280';
             <path d="M156 172 C176 186 184 200 176 216" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
           </g>
         )}
-        {(variant === 'code' || variant === 'market') && (
+        {variant === 'wave' && (
+          <g>
+            <path d="M46 168 C40 190 52 206 72 210" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M46 168 C40 190 52 206 72 210" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+            <g class="wave-arm">
+              <path d="M154 168 C176 150 184 126 178 104" fill="none" stroke="#23170D" stroke-width="30" />
+              <path d="M154 168 C176 150 184 126 178 104" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+              <circle cx="178" cy="100" r="15" fill={`url(#fur-${uid})`} />
+            </g>
+          </g>
+        )}
+        {variant === 'stand' && (
+          <g>
+            <path d="M44 160 C30 180 30 200 38 216" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M44 160 C30 180 30 200 38 216" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+            <path d="M156 160 C170 180 170 200 162 216" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M156 160 C170 180 170 200 162 216" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+          </g>
+        )}
+        {(variant === 'code' || variant === 'market' || variant === 'sit') && (
           <g>
             <path d="M46 168 C40 190 52 206 72 210" fill="none" stroke="#23170D" stroke-width="30" />
             <path d="M46 168 C40 190 52 206 72 210" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
@@ -170,6 +189,10 @@ const vb = isHead ? '0 0 200 170' : '0 0 220 280';
   .head { transform-box: view-box; transform-origin: 100px 150px; animation: nod 4s ease-in-out infinite; }
   @keyframes nod { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
   .orbit { transform-origin: 100px 130px; transform-box: view-box; animation: halo 18s linear infinite; }
+  .wave-arm { transform-box: view-box; transform-origin: 164px 188px; animation: wave .5s ease-in-out infinite alternate; }
+  @keyframes wave { from { transform: rotate(-12deg); } to { transform: rotate(14deg); } }
+  .bear-dance .body-wrap { transform-box: view-box; transform-origin: 110px 270px; animation: dance 1s ease-in-out infinite alternate; }
+  @keyframes dance { from { transform: translate(10px, 20px) rotate(-7deg); } to { transform: translate(10px, 14px) rotate(7deg); } }
   .bear-run .body-wrap { animation: bounce .7s ease-in-out infinite alternate; }
   @keyframes bounce { from { transform: translate(10px, 20px); } to { transform: translate(10px, 8px); } }
   :global(html[data-dose='sober']) .bear * { animation: none !important; }
