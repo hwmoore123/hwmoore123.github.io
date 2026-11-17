@@ -78,19 +78,32 @@ const songs: Song[] = [
 </Base>
 
 <style>
-  .songs { list-style: none; padding-block: 8px 20px; margin: 0 auto; display: grid; gap: 34px; }
+  .songs { list-style: none; padding-block: 24px 20px; margin: 0 auto; display: grid; gap: 54px; }
+  /* torn card: paper + wobbly outline live on ::after so the words stay crisp */
   .stub {
-    position: relative;
+    position: relative; isolation: isolate;
     display: grid; grid-template-columns: minmax(180px, 280px) 1fr 70px; gap: 0;
-    background: #F4ECDA;
-    border: 3px solid var(--ink); border-radius: 12px;
-    box-shadow: 8px 8px 0 var(--violet);
-    overflow: hidden;
-    transition: transform .3s ease, box-shadow .3s ease;
+    transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
   }
-  .stub:nth-child(even) { box-shadow: 8px 8px 0 var(--orange); }
-  .stub:hover { transform: rotate(-.4deg) translateY(-3px); box-shadow: 12px 12px 0 var(--magenta); }
-  .art { padding: 16px; background: var(--ink); }
+  .stub::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: #F4ECDA;
+    border: 3px solid var(--ink);
+    border-radius: 18px 255px 15px 225px / 225px 15px 255px 18px;
+    box-shadow: 9px 10px 0 var(--violet);
+    filter: url(#rough);
+  }
+  .stub:nth-child(even)::after { box-shadow: 9px 10px 0 var(--orange); }
+  .stub:hover { transform: rotate(0) scale(1.015); }
+  /* poster pinned on with tape, hanging off the edge */
+  .art { padding: 0; position: relative; margin: -18px 0 18px -14px; transform: rotate(-5deg); z-index: 2; }
+  .stub:nth-child(even) .art { transform: rotate(4deg); margin: 14px 0 -10px -20px; }
+  .art::before {
+    content: ''; position: absolute; top: -12px; left: 50%; width: 96px; height: 26px; margin-left: -48px; z-index: 3;
+    background: rgba(253, 184, 39, .8); transform: rotate(-6deg);
+    clip-path: polygon(3% 0, 97% 8%, 100% 55%, 96% 100%, 2% 92%, 0 45%);
+  }
+  .art :global(.poster) { box-shadow: 6px 8px 0 rgba(35, 23, 13, .5); border-radius: 3px; }
   .body { padding: 20px 26px; }
   .meta { margin: 0; color: var(--violet); }
   .no { color: var(--ink); background: var(--lime); padding: 0 6px; border-radius: 3px; }
@@ -98,17 +111,26 @@ const songs: Song[] = [
   h2 .display { display: block; font-size: clamp(34px, 4.4vw, 52px); color: var(--ink); }
   h2 .sub { display: block; font-family: var(--font-body); font-style: italic; font-weight: 500; font-size: 20px; color: var(--ink-soft); margin-top: 4px; }
   .role { font-family: var(--font-term); font-size: 20px; color: var(--walnut); margin-bottom: .6em; }
-  .tags { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .tags li { font-family: var(--font-term); font-size: 18px; padding: 2px 10px; border: 2px solid var(--ink); border-radius: 999px; background: var(--beige); }
+  .tags { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .tags li {
+    font-family: var(--font-hand); font-size: 16px; padding: 4px 12px 2px;
+    border: 2px solid var(--ink); border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    background: var(--beige);
+  }
+  .tags li:nth-child(odd) { transform: rotate(-3deg); background: #FFE9A8; }
+  .tags li:nth-child(even) { transform: rotate(2deg); }
   .more { font-weight: 600; }
+  /* ripped-off stub strip with a ragged left edge */
   .tear {
-    border-left: 3px dashed var(--ink);
     background: var(--magenta); color: #fff;
     writing-mode: vertical-rl; text-orientation: mixed;
-    display: flex; justify-content: space-between; align-items: center; padding: 16px 0;
-    font-family: var(--font-term); font-size: 22px; letter-spacing: .2em;
+    display: flex; justify-content: space-between; align-items: center; padding: 18px 0 18px 8px;
+    font-family: var(--font-hand); font-size: 20px; letter-spacing: .08em;
+    margin: 10px -8px 14px 0; transform: rotate(2deg);
+    clip-path: polygon(14% 0, 100% 2%, 98% 98%, 10% 100%, 0 94%, 16% 88%, 2% 81%, 14% 74%, 0 67%, 15% 60%, 1% 53%, 13% 46%, 0 39%, 15% 32%, 2% 25%, 14% 18%, 0 11%, 12% 5%);
+    text-shadow: 1px 1px 0 var(--ink);
   }
-  .stub:nth-child(even) .tear { background: var(--teal); color: var(--ink); }
+  .stub:nth-child(even) .tear { background: var(--teal); color: var(--ink); text-shadow: none; }
   .tear .num { letter-spacing: .05em; }
   .encore { padding-bottom: 80px; }
   .big .tear { background: var(--orange); color: var(--ink); }
@@ -116,6 +138,8 @@ const songs: Song[] = [
     .stub { grid-template-columns: 1fr; }
     .art { padding: 12px; }
     .art :global(.poster) { max-width: 320px; margin-inline: auto; }
-    .tear { writing-mode: horizontal-tb; border-left: 0; border-top: 3px dashed var(--ink); padding: 8px 16px; font-size: 18px; }
+    .art, .stub:nth-child(even) .art { margin: -14px auto 8px; }
+    .tear { writing-mode: horizontal-tb; padding: 10px 16px; font-size: 17px; margin: 0 10px 12px; transform: rotate(-1deg);
+      clip-path: polygon(0 12%, 6% 0, 12% 14%, 19% 2%, 26% 12%, 33% 0, 40% 13%, 47% 1%, 54% 12%, 61% 0, 68% 14%, 75% 2%, 82% 12%, 89% 0, 95% 13%, 100% 4%, 100% 100%, 0 100%); }
   }
 </style>

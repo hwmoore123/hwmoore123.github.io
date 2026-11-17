@@ -102,6 +102,25 @@ const tour = [
     padding-bottom: 80px;
   }
   .bench-area { align-items: start; }
+  /* the computer, a little crooked, with stickers slapped on the case */
+  .bench :global(.computer) { position: relative; transform: rotate(-1.5deg); }
+  .bench :global(.computer)::before {
+    content: 'hi!'; position: absolute; z-index: 3; top: -22px; right: 34px;
+    width: 70px; height: 70px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--lime); color: var(--ink);
+    font-family: var(--font-hand); font-size: 24px;
+    border: 3px solid var(--ink); transform: rotate(14deg);
+    box-shadow: 0 0 0 4px #FFF8EA, 4px 6px 0 4px rgba(35, 23, 13, .4);
+  }
+  .bench :global(.computer)::after {
+    content: '★'; position: absolute; z-index: 3; bottom: 88px; left: -16px;
+    font-size: 54px; line-height: 1; color: var(--magenta);
+    -webkit-text-stroke: 2px var(--ink); transform: rotate(-18deg);
+    text-shadow: 3px 3px 0 #FFF8EA;
+  }
+  .pegboard { transform: rotate(1.2deg); }
+  .workbench { transform: rotate(-1deg); }
   .workbench {
     height: 40px; margin: 22px -12px 0; border-radius: 6px; position: relative;
     border: 3px solid var(--walnut-dark); box-shadow: 0 12px 0 var(--walnut-dark);

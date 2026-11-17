@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Circuit from '../../components/Circuit.astro';
+import Squiggle from '../../components/Squiggle.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -16,7 +16,7 @@ const date = note.data.date.toLocaleDateString('en-US', { year: 'numeric', month
     <p class="term-label">No. {String(note.data.track).padStart(2, '0')} · {note.data.kind} · <time datetime={note.data.date.toISOString()}>{date}</time></p>
     <h1 class="display">{note.data.title}</h1>
     <p class="blurb">{note.data.blurb}</p>
-    <Circuit />
+    <Squiggle />
     <div class="prose"><Content /></div>
     <p class="back"><a href="/publications/">← Back to publications</a></p>
   </article>

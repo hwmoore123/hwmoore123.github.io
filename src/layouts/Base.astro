@@ -7,6 +7,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Stickers from '../components/Stickers.astro';
+import Splat from '../components/Splat.astro';
 
 interface Props { title: string; description?: string; page?: string }
 const {
@@ -14,6 +15,7 @@ const {
   description = 'Wood Moore — Computer Science, Economics, and Math student at MIT. ML researcher and distance runner.',
   page = '',
 } = Astro.props;
+const seed = [...page].reduce((a, c) => a + c.charCodeAt(0), 7);
 const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
 ---
 <!doctype html>
@@ -53,6 +55,13 @@ const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
 
     <Nav current={page} />
     <main id="main" tabindex="-1">
+      {page !== 'home' && (
+        <div class="splats" aria-hidden="true">
+          <Splat seed={seed} color="#FF2E97" style="width: 380px; right: -90px; top: 60px;" />
+          <Splat seed={seed + 5} color="#B6FF3B" style="width: 300px; left: -80px; top: 46%;" />
+          <Splat seed={seed + 9} color="#00C2B8" style="width: 260px; right: 8%; bottom: 40px;" />
+        </div>
+      )}
       <slot />
     </main>
     <Footer />

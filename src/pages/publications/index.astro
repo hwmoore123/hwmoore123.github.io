@@ -48,7 +48,13 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
 
 <style>
   .record { align-items: center; padding-bottom: 90px; }
-  .sleeve-wrap { position: relative; aspect-ratio: 1; max-width: 440px; width: 100%; }
+  .sleeve-wrap { position: relative; aspect-ratio: 1; max-width: 440px; width: 100%; transform: rotate(-5deg); }
+  .sleeve-wrap::before {
+    content: ''; position: absolute; z-index: 3; top: -14px; left: 30%; width: 120px; height: 30px;
+    background: rgba(253, 184, 39, .85); transform: rotate(-8deg);
+    clip-path: polygon(3% 0, 97% 8%, 100% 55%, 96% 100%, 2% 92%, 0 45%);
+  }
+  .tracks { transform: rotate(1.5deg); }
   .sleeve { position: absolute; inset: 0; z-index: 2; border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--violet); background: var(--orange); }
   .sleeve svg { display: block; width: 100%; height: 100%; }
   .vinyl {
