@@ -1,4 +1,4 @@
-# woodmoore.com — "Math, markets, and miles."
+# Wood Moore — Computer Science, Economics, and Math Student @ MIT
 
 A 1967 concert poster melting over a 1976 garage workbench. Astro static site, hand-written effects, ~4 KB of JS (gzipped).
 
