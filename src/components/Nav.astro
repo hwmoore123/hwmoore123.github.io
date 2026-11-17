@@ -13,7 +13,7 @@ const items = [
   <div class="stripe-h" aria-hidden="true"></div>
   <nav class="strip wood" aria-label="Main">
     <div class="wrap inner">
-      <a class="brand" href="/" aria-label="Wood Moore, home">WM<span aria-hidden="true">·</span><small>HiFi-29</small></a>
+      <a class="brand" href="/" aria-label="Wood Moore, home">WM</a>
       <ul>
         {items.map((i) => (
           <li>
@@ -35,8 +35,6 @@ const items = [
   .brand {
     font-family: var(--font-display); font-size: 28px; color: var(--beige); text-decoration: none; line-height: 1;
   }
-  .brand span { color: var(--magenta); }
-  .brand small { font-family: var(--font-term); font-size: 16px; color: var(--gold); margin-left: 6px; letter-spacing: .1em; }
   ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
   ul a {
     display: inline-flex; align-items: center; gap: 6px;
