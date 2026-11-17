@@ -5,7 +5,6 @@ import '@fontsource-variable/fraunces/full.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import Knob from '../components/Knob.astro';
 import Stickers from '../components/Stickers.astro';
 
 interface Props { title: string; description?: string; page?: string }
@@ -17,7 +16,7 @@ const {
 const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
 ---
 <!doctype html>
-<html lang="en" data-dose="contact">
+<html lang="en" data-dose="trip">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,16 +26,10 @@ const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <!-- Set the dose before first paint: saved choice > reduced-motion > Contact high -->
+    <!-- Always Full trip. Only an OS-level reduced-motion setting calms it down. -->
     <script is:inline>
-      (function () {
-        var d = null, el = document.documentElement;
-        try { d = localStorage.getItem('dose'); } catch (e) {}
-        if (d) el.setAttribute('data-dose-chosen', '');
-        if (!d) d = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'sober' : 'contact';
-        if (['sober', 'contact', 'trip'].indexOf(d) < 0) d = 'contact';
-        el.dataset.dose = d;
-      })();
+      document.documentElement.dataset.dose =
+        matchMedia('(prefers-reduced-motion: reduce)').matches ? 'sober' : 'trip';
     </script>
   </head>
   <body data-page={page}>
@@ -57,12 +50,7 @@ const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
       <slot />
     </main>
     <Footer />
-    <Knob />
 
-    <div class="notice" id="notice" role="status" hidden>
-      <p>This site moves. Turn the knob to <strong>Sober</strong> anytime.</p>
-      <button type="button" id="notice-ok">Groovy</button>
-    </div>
 
     <canvas id="trail" aria-hidden="true"></canvas>
 
@@ -71,24 +59,6 @@ const fullTitle = title === 'Wood Moore' ? title : `${title} · Wood Moore`;
       import '../scripts/tiedye';
     </script>
     <style>
-      .notice {
-        position: fixed; left: 50%; bottom: 24px; z-index: 80;
-        transform: translateX(-50%);
-        display: flex; align-items: center; gap: 16px;
-        max-width: calc(100vw - 32px);
-        padding: 12px 14px 12px 20px;
-        background: var(--crt); color: var(--phosphor);
-        font-family: var(--font-term); font-size: 22px; line-height: 1.2;
-        border: 3px solid var(--magenta); border-radius: 10px;
-        box-shadow: 6px 6px 0 var(--violet);
-      }
-      .notice[hidden] { display: none; }
-      .notice p { margin: 0; }
-      .notice strong { color: var(--lime); font-weight: 400; }
-      .notice button {
-        font: inherit; color: var(--ink); background: var(--lime);
-        border: 0; border-radius: 6px; padding: 6px 14px; cursor: pointer; white-space: nowrap;
-      }
       #trail { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 70; }
     </style>
   </body>
