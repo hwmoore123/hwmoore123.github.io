@@ -19,7 +19,7 @@ A 1967 concert poster melting over a 1976 garage workbench. Astro static site, h
 | Project posters + kaleidoscope hover | `src/components/Poster.astro` |
 | Terminal boot | `src/components/Terminal.astro` |
 | Pages | `src/pages/` (index, about, setlist, notes, backstage, 404) |
-| Liner notes (Markdown posts) | `src/content/notes/*.md` |
+| Writing (Markdown posts) | `src/content/notes/*.md` |
 
 ## Add a liner note
 
@@ -27,7 +27,7 @@ Drop a Markdown file in `src/content/notes/` with `title`, `date`, `track`, `kin
 
 ## Still to fill in
 
-- [ ] GitHub + LinkedIn URLs: top of `src/pages/backstage.astro`
+- [ ] GitHub + LinkedIn URLs: top of `src/pages/contact.astro`
 - [ ] Résumé PDF at `public/wood-moore-resume.pdf`
 - [ ] Posterized self-portrait: replace the placeholder SVG in `src/pages/about.astro`
 - [ ] Domain: set `site` in `astro.config.mjs`

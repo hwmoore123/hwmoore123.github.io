@@ -6,7 +6,7 @@ const notes = (await getCollection('notes', (n) => !n.data.draft)).sort((a, b) =
 const upcoming = ['Mantis research log', 'Markets, slowly', 'Thoughts from mile 10'];
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 ---
-<Base title="Writing" page="notes" description="Papers, research logs and writing by Wood Moore.">
+<Base title="Writing" page="writing" description="Papers, research logs and writing by Wood Moore.">
   <header class="wrap page-head">
     <p class="term-label">Writing</p>
     <h1 class="display vibe-lm drift">Writing.</h1>
@@ -37,7 +37,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
           <li>
             <span class="no">{String(n.data.track).padStart(2, '0')}</span>
             <div>
-              <a href={`/notes/${n.id}/`}>{n.data.title}</a>
+              <a href={`/writing/${n.id}/`}>{n.data.title}</a>
               <p>{n.data.kind.toUpperCase()} · {fmt(n.data.date)} · {n.data.blurb}</p>
             </div>
           </li>

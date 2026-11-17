@@ -1,7 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Liner notes: drop a Markdown file in src/content/notes/ and it becomes a track.
+// Writing: drop a Markdown file in src/content/notes/ and it becomes a post at /writing/<file>/.
 const notes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
   schema: z.object({

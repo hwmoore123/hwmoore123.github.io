@@ -11,14 +11,14 @@ const { note } = Astro.props;
 const { Content } = await render(note);
 const date = note.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
-<Base title={note.data.title} page="notes" description={note.data.blurb}>
+<Base title={note.data.title} page="writing" description={note.data.blurb}>
   <article class="wrap sheet">
     <p class="term-label">No. {String(note.data.track).padStart(2, '0')} · {note.data.kind} · <time datetime={note.data.date.toISOString()}>{date}</time></p>
     <h1 class="display">{note.data.title}</h1>
     <p class="blurb">{note.data.blurb}</p>
     <Circuit />
     <div class="prose"><Content /></div>
-    <p class="back"><a href="/notes/">← Back to writing</a></p>
+    <p class="back"><a href="/writing/">← Back to writing</a></p>
   </article>
 </Base>
 
