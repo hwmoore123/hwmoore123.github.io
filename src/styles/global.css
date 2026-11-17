@@ -225,10 +225,13 @@ body::before { opacity: .14; }
   position: fixed; z-index: -1;
   width: 170vmax; height: 170vmax;
   left: 50%; top: 50%; margin: -85vmax 0 0 -85vmax;
+  /* soft blend until the painted tie-dye is ready (no hard pinwheel) */
   background:
-    repeating-conic-gradient(from 10deg,
-      #FF2E97 0 14deg, #FF8A1E 0 28deg, #FDB827 0 42deg, #B6FF3B 0 56deg,
-      #00C2B8 0 70deg, #009DDC 0 84deg, #7B2CFF 0 98deg);
+    radial-gradient(40% 40% at 30% 30%, #FF2E97, transparent 70%),
+    radial-gradient(40% 40% at 70% 35%, #FDB827, transparent 70%),
+    radial-gradient(45% 45% at 60% 70%, #00C2B8, transparent 70%),
+    radial-gradient(40% 40% at 30% 70%, #B6FF3B, transparent 70%),
+    #7B2CFF;
   background-size: cover; background-position: center;
   animation: tdspin 200s linear infinite;
   animation-play-state: var(--drift-state);
