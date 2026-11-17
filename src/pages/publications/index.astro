@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import Grove from '../../components/Grove.astro';
 
 const notes = (await getCollection('notes', (n) => !n.data.draft)).sort((a, b) => a.data.track - b.data.track);
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
@@ -44,10 +45,15 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
       </ol>
     </section>
   </div>
+
+  <section class="wrap grove-wrap" aria-label="The grove">
+    <Grove />
+  </section>
 </Base>
 
 <style>
-  .record { align-items: center; padding-bottom: 90px; }
+  .record { align-items: center; padding-bottom: 40px; }
+  .grove-wrap { padding-bottom: 70px; }
   .sleeve-wrap { position: relative; aspect-ratio: 1; max-width: 440px; width: 100%; transform: rotate(-5deg); }
   .sleeve-wrap::before {
     content: ''; position: absolute; z-index: 3; top: -14px; left: 30%; width: 120px; height: 30px;
