@@ -56,6 +56,8 @@ const access = [
 
   <script>
     import { getDose } from '../scripts/dose';
+    import { runChaos } from '../scripts/chaos';
+    runChaos('.deck .brand, .deck nav li, .page-head > *, .hang, .side > *, .foot .made, .foot .small, .foot .links li');
     const pass = document.getElementById('pass');
     if (pass) {
       let th = 0, w = 0, raf = 0, lastX: number | null = null, lastT = 0;
