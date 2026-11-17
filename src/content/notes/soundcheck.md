@@ -1,5 +1,5 @@
 ---
-title: "Soundcheck"
+title: "Why the site looks like this"
 date: 2026-11-16
 track: 2
 kind: notes
@@ -12,4 +12,4 @@ Posters used to melt. Lettering bent to fill its shape, and colors sat next to e
 
 This site borrows a little from both. The structure underneath is a strict grid, because I like things that work. The surface moves, slowly, because I like things that feel alive.
 
-More tracks soon: research logs from Mantis, notes on markets, and thoughts from mile 10.
+More posts soon: research logs from Mantis, notes on markets, and thoughts from mile 10.

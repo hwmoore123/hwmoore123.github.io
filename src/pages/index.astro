@@ -74,9 +74,9 @@ const bill = [
       <p class="tagline display vibe-lm">Computer Science, Economics, and Math Student @ MIT</p>
 
       <nav class="tickets" aria-label="Start here">
-        <a class="ticket" href="/setlist/">Hear the setlist</a>
-        <a class="ticket alt" href="/about/">Visit the garage</a>
-        <a class="ticket alt2" href="/backstage/">Get backstage</a>
+        <a class="ticket" href="/setlist/">See my projects</a>
+        <a class="ticket alt" href="/about/">About me</a>
+        <a class="ticket alt2" href="/backstage/">Get in touch</a>
       </nav>
     </div>
   </section>
@@ -87,19 +87,19 @@ const bill = [
     <div class="wrap">
       <div class="grid">
         <div class="lead" style="grid-column: span 5">
-          <p class="term-label kicker">Tonight’s bill</p>
-          <h2 class="display vibe-ov">Four songs and an encore.</h2>
+          <p class="term-label kicker">Projects</p>
+          <h2 class="display vibe-ov">What I’m working on.</h2>
           <p>
             I build models that read the world: financial news, Internet traffic, order books.
             Then I go for a long run and think about whether they’re right.
           </p>
-          <a class="ticket" href="/setlist/">See the full set</a>
+          <a class="ticket" href="/setlist/">See all projects</a>
         </div>
         <ol class="marquee" style="grid-column: 7 / span 6">
           {bill.map((b) => (
             <li><span class="n">{b.n}</span><span class="t">{b.t}</span><span class="s">{b.s}</span></li>
           ))}
-          <li class="encore"><span class="n">∞</span><span class="t">Encore: the 3200m</span><span class="s">All-American, 2024</span></li>
+          <li class="encore"><span class="n">∞</span><span class="t">Also: the 3200m</span><span class="s">All-American, 2024</span></li>
         </ol>
       </div>
       <Circuit />

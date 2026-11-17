@@ -26,10 +26,10 @@ const tour = [
   { date: 'Now', city: 'MIT', what: 'Varsity XC & track' },
 ];
 ---
-<Base title="The garage" page="about" description="About Wood Moore: MIT CS, economics and applied math; ML researcher; All-American distance runner.">
+<Base title="About" page="about" description="About Wood Moore: MIT CS, economics and applied math; ML researcher; All-American distance runner.">
   <div class="garage">
     <header class="wrap page-head">
-      <p class="term-label">Side A · The garage</p>
+      <p class="term-label">About</p>
       <h1 class="display vibe-ov drift">Visit the garage.</h1>
       <p class="lede">Every good machine starts on a workbench. This one has a keyboard, a pegboard, and running shoes under the desk.</p>
     </header>
@@ -57,8 +57,8 @@ const tour = [
         </figure>
 
         <section class="tour pin" aria-labelledby="tour-h">
-          <h2 id="tour-h" class="term-label">Tour dates</h2>
-          <p class="tour-lede">3200m, All-American, 2024. Still on the road.</p>
+          <h2 id="tour-h" class="term-label">Race results</h2>
+          <p class="tour-lede">3200m, All-American, 2024. Still running.</p>
           <ul>
             {tour.map((t) => (
               <li><span class="d">{t.date}</span><span class="c">{t.city}</span><span class="w">{t.what}</span></li>

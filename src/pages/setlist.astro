@@ -35,11 +35,11 @@ const songs: Song[] = [
   },
 ];
 ---
-<Base title="Setlist" page="setlist" description="Projects by Wood Moore: Mantis, Weighted PALU, IMC Prosperity 4, and a runner development app.">
+<Base title="Projects" page="setlist" description="Projects by Wood Moore: Mantis, Weighted PALU, IMC Prosperity 4, and a runner development app.">
   <header class="wrap page-head">
-    <p class="term-label">Side B · Setlist</p>
-    <h1 class="display vibe-ml drift">The setlist.</h1>
-    <p class="lede">Tonight’s set, in the order it was played.</p>
+    <p class="term-label">Projects</p>
+    <h1 class="display vibe-ml drift">Projects.</h1>
+    <p class="lede">Research and things I’ve built, newest first.</p>
   </header>
 
   <ol class="wrap songs">
@@ -47,7 +47,7 @@ const songs: Song[] = [
       <li class="stub" tabindex="-1">
         <div class="art"><Poster motif={s.motif} title={s.title} /></div>
         <div class="body">
-          <p class="meta term-label"><span class="no">Song {s.n}</span> · {s.years}</p>
+          <p class="meta term-label"><span class="no">Project {s.n}</span> · {s.years}</p>
           <h2><span class="display">{s.title}</span><span class="sub">{s.sub}</span></h2>
           <p class="role">{s.role}</p>
           <p>{s.blurb}</p>
@@ -55,7 +55,7 @@ const songs: Song[] = [
           {s.link && <a class="more" href={s.link.href} rel="noopener">{s.link.label} ↗</a>}
         </div>
         <div class="tear" aria-hidden="true">
-          <span>ADMIT ONE</span><span class="num">No. 00{s.n}</span>
+          <span>PROJECT</span><span class="num">No. 0{s.n}</span>
         </div>
       </li>
     ))}
@@ -67,12 +67,12 @@ const songs: Song[] = [
     <div class="stub big">
       <div class="art"><Poster motif="sun" title="The 3200m" /></div>
       <div class="body">
-        <p class="meta term-label"><span class="no">Encore</span> · 2024</p>
+        <p class="meta term-label"><span class="no">Off the keyboard</span> · 2024</p>
         <h2 id="encore-h"><span class="display">The 3200m</span><span class="sub">eight laps, all heart</span></h2>
         <p class="role">Runner</p>
         <p>NHSTFXCCA All-American in the 3200m. Three-time state runner-up. Wesleyan School record holder. Now running varsity cross country and track at MIT.</p>
       </div>
-      <div class="tear" aria-hidden="true"><span>ENCORE</span><span class="num">No. ∞</span></div>
+      <div class="tear" aria-hidden="true"><span>RUNNING</span><span class="num">3200m</span></div>
     </div>
   </section>
 </Base>
