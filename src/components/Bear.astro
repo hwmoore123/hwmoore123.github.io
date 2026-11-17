@@ -1,0 +1,176 @@
+---
+// Original psychedelic bears. Front-facing, chunky, spiral-eyed — deliberately nothing like
+// any band's marching side-profile bears. Fur is a repeating rainbow-ring gradient.
+interface Props {
+  variant: 'code' | 'run' | 'math' | 'market' | 'head';
+  uid: string;
+  fur?: string[];
+  label: string;
+}
+const { variant, uid, label, fur = ['#FF2E97', '#FF8A1E', '#FDB827', '#B6FF3B', '#00C2B8', '#7B2CFF'] } = Astro.props;
+
+const spiral = (cx: number, cy: number, rMax: number, turns = 3) => {
+  let d = '';
+  const steps = 80;
+  for (let i = 0; i <= steps; i++) {
+    const a = (i / steps) * turns * Math.PI * 2;
+    const r = (rMax * i) / steps;
+    d += `${i ? 'L' : 'M'}${(cx + r * Math.cos(a)).toFixed(1)} ${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }
+  return d;
+};
+const rays = Array.from({ length: 24 }, (_, i) => i * 15);
+const isHead = variant === 'head';
+const vb = isHead ? '0 0 200 170' : '0 0 220 280';
+---
+<svg class={`bear bear-${variant}`} viewBox={vb} role="img" aria-label={label} xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id={`fur-${uid}`} cx="50%" cy="38%" r="22%" spreadMethod="repeat">
+      {fur.map((c, i) => <stop offset={`${(i / fur.length) * 100}%`} stop-color={c} />)}
+      <stop offset="100%" stop-color={fur[0]} />
+    </radialGradient>
+    <radialGradient id={`belly-${uid}`} cx="50%" cy="50%" r="60%">
+      <stop offset="0" stop-color="#FFF6DD" /><stop offset="1" stop-color="#F4D9A6" />
+    </radialGradient>
+  </defs>
+
+  {!isHead && (
+    <g class="halo" style="transform-origin: 110px 110px">
+      {rays.map((r, i) => (
+        <path d="M110 110 L104 0 L116 0 Z" fill={fur[i % fur.length]} opacity=".85" transform={`rotate(${r} 110 110)`} />
+      ))}
+      <circle cx="110" cy="110" r="70" fill="#23170D" opacity=".18" />
+    </g>
+  )}
+
+  <g class="body-wrap" transform={isHead ? 'translate(0 -10)' : 'translate(10 20)'} stroke="#23170D" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    {!isHead && (
+      <g class="body">
+        {/* legs */}
+        {variant === 'run' ? (
+          <g>
+            <path d="M70 215 C60 240 46 246 34 250" fill="none" stroke="#23170D" stroke-width="34" />
+            <path d="M70 215 C60 240 46 246 34 250" fill="none" stroke={`url(#fur-${uid})`} stroke-width="26" />
+            <path d="M130 215 C142 232 150 236 168 230" fill="none" stroke="#23170D" stroke-width="34" />
+            <path d="M130 215 C142 232 150 236 168 230" fill="none" stroke={`url(#fur-${uid})`} stroke-width="26" />
+            <path d="M18 244 h30 l4 12 h-38 Z" fill="#00C2B8" />
+            <path d="M160 222 l26 -6 l4 12 l-30 7 Z" fill="#FF2E97" />
+          </g>
+        ) : (
+          <g>
+            <ellipse cx="72" cy="246" rx="24" ry="16" fill={`url(#fur-${uid})`} />
+            <ellipse cx="128" cy="246" rx="24" ry="16" fill={`url(#fur-${uid})`} />
+          </g>
+        )}
+        <ellipse cx="100" cy="190" rx="62" ry="58" fill={`url(#fur-${uid})`} />
+        <ellipse cx="100" cy="198" rx="38" ry="38" fill={`url(#belly-${uid})`} />
+        {/* arms */}
+        {variant === 'math' && (
+          <g>
+            <path d="M44 170 C24 140 22 112 30 96" fill="none" stroke="#23170D" stroke-width="32" />
+            <path d="M44 170 C24 140 22 112 30 96" fill="none" stroke={`url(#fur-${uid})`} stroke-width="24" />
+            <path d="M156 170 C176 140 178 112 170 96" fill="none" stroke="#23170D" stroke-width="32" />
+            <path d="M156 170 C176 140 178 112 170 96" fill="none" stroke={`url(#fur-${uid})`} stroke-width="24" />
+          </g>
+        )}
+        {variant === 'run' && (
+          <g>
+            <path d="M44 172 C28 160 26 140 40 128" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M44 172 C28 160 26 140 40 128" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+            <path d="M156 172 C176 186 184 200 176 216" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M156 172 C176 186 184 200 176 216" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+          </g>
+        )}
+        {(variant === 'code' || variant === 'market') && (
+          <g>
+            <path d="M46 168 C40 190 52 206 72 210" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M46 168 C40 190 52 206 72 210" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+            <path d="M154 168 C160 190 148 206 128 210" fill="none" stroke="#23170D" stroke-width="30" />
+            <path d="M154 168 C160 190 148 206 128 210" fill="none" stroke={`url(#fur-${uid})`} stroke-width="22" />
+          </g>
+        )}
+      </g>
+    )}
+
+    {/* head */}
+    <g class="head">
+      <circle cx="52" cy="44" r="24" fill={`url(#fur-${uid})`} />
+      <circle cx="148" cy="44" r="24" fill={`url(#fur-${uid})`} />
+      <circle cx="52" cy="44" r="11" fill="#FF2E97" />
+      <circle cx="148" cy="44" r="11" fill="#FF2E97" />
+      <ellipse cx="100" cy="92" rx="72" ry="64" fill={`url(#fur-${uid})`} />
+      {/* spiral eyes */}
+      <circle cx="70" cy="80" r="17" fill="#F4ECDA" />
+      <circle cx="130" cy="80" r="17" fill="#F4ECDA" />
+      <path class="eye" d={spiral(70, 80, 14)} fill="none" stroke-width="3" />
+      <path class="eye eye-r" d={spiral(130, 80, 14)} fill="none" stroke-width="3" />
+      {variant === 'market' && (
+        <g class="shades">
+          <path d="M44 70 H96 C96 96 50 98 44 70 Z M104 70 H156 C150 98 104 96 104 70 Z" fill="#23170D" />
+          <path d="M96 74 H104" />
+          <path d="M52 76 L64 76" stroke="#B6FF3B" stroke-width="3" />
+          <path d="M112 76 L124 76" stroke="#B6FF3B" stroke-width="3" />
+        </g>
+      )}
+      {variant === 'run' && (
+        <path d="M30 58 C70 40 130 40 170 58 L168 70 C130 54 70 54 32 70 Z" fill="#B6FF3B" />
+      )}
+      <ellipse cx="100" cy="116" rx="30" ry="22" fill={`url(#belly-${uid})`} />
+      <ellipse cx="100" cy="104" rx="11" ry="8" fill="#23170D" />
+      <path d="M100 112 V120 M86 122 q14 12 28 0" fill="none" />
+      {variant === 'run' && <path d="M90 126 q10 8 20 0" fill="#FF2E97" stroke-width="2" />}
+      <circle cx="58" cy="110" r="8" fill="#FF2E97" stroke="none" opacity=".6" />
+      <circle cx="142" cy="110" r="8" fill="#FF2E97" stroke="none" opacity=".6" />
+    </g>
+
+    {/* props */}
+    {variant === 'code' && (
+      <g class="laptop">
+        <path d="M54 176 H146 L140 232 H60 Z" fill="#CDBB98" />
+        <rect x="62" y="182" width="76" height="44" rx="4" fill="#0B0F0A" />
+        <path d="M68 194 h30 M68 204 h44 M68 214 h22" stroke="#33FF66" stroke-width="3" />
+        <path d="M44 232 H156 L150 242 H50 Z" fill="#E8DCC4" />
+        <circle cx="100" cy="190" r="3" fill="#FF2E97" stroke="none" />
+      </g>
+    )}
+    {variant === 'math' && (
+      <g class="orbit" font-family="Shrikhand, serif" stroke="#23170D" stroke-width="2.5" paint-order="stroke" font-weight="400">
+        <text x="16" y="96" font-size="30" fill="#B6FF3B">π</text>
+        <text x="166" y="96" font-size="30" fill="#FDB827">∑</text>
+        <text x="4" y="200" font-size="28" fill="#00C2B8">∫</text>
+        <text x="176" y="206" font-size="26" fill="#FF8A1E">√</text>
+        <text x="90" y="8" font-size="22" fill="#FF2E97">e<tspan dy="-8" font-size="14">iπ</tspan></text>
+      </g>
+    )}
+    {variant === 'market' && (
+      <g class="candles">
+        {[
+          { x: 62, y: 214, h: 20, c: '#E03A3E' }, { x: 84, y: 202, h: 28, c: '#61BB46' },
+          { x: 106, y: 196, h: 22, c: '#61BB46' }, { x: 128, y: 180, h: 36, c: '#61BB46' },
+        ].map((k) => (
+          <g>
+            <path d={`M${k.x + 7} ${k.y - 8} V${k.y + k.h + 8}`} />
+            <rect x={k.x} y={k.y} width="14" height={k.h} fill={k.c} rx="2" />
+          </g>
+        ))}
+        <path d="M58 228 L150 172" stroke="#FDB827" stroke-width="5" fill="none" />
+        <path d="M140 170 L152 170 L150 182" stroke="#FDB827" stroke-width="5" fill="none" />
+      </g>
+    )}
+  </g>
+</svg>
+
+<style>
+  .bear { display: block; width: 100%; height: auto; overflow: visible; }
+  .halo { animation: halo 30s linear infinite; }
+  @keyframes halo { to { transform: rotate(360deg); } }
+  .eye { transform-box: fill-box; transform-origin: center; animation: spin 3s linear infinite; }
+  .eye-r { animation-direction: reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .head { transform-box: view-box; transform-origin: 100px 150px; animation: nod 4s ease-in-out infinite; }
+  @keyframes nod { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+  .orbit { transform-origin: 100px 130px; transform-box: view-box; animation: halo 18s linear infinite; }
+  .bear-run .body-wrap { animation: bounce .7s ease-in-out infinite alternate; }
+  @keyframes bounce { from { transform: translate(10px, 20px); } to { transform: translate(10px, 8px); } }
+  :global(html[data-dose='sober']) .bear * { animation: none !important; }
+</style>

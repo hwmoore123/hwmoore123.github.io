@@ -3,6 +3,14 @@ import Base from '../layouts/Base.astro';
 import LiquidLight from '../components/LiquidLight.astro';
 import Drip from '../components/Drip.astro';
 import Circuit from '../components/Circuit.astro';
+import Bear from '../components/Bear.astro';
+
+const bears = [
+  { variant: 'code', name: 'Code Bear', job: 'Trains the models. Reads the news so you don’t have to.', fur: ['#B6FF3B', '#00C2B8', '#009DDC', '#7B2CFF', '#FF2E97', '#FDB827'] },
+  { variant: 'run', name: 'Run Bear', job: '3200m specialist. Has never hibernated.', fur: ['#FF8A1E', '#FDB827', '#FF2E97', '#7B2CFF', '#00C2B8', '#B6FF3B'] },
+  { variant: 'math', name: 'Math Bear', job: 'Proves things for fun. Orbited by constants.', fur: ['#7B2CFF', '#FF2E97', '#FF8A1E', '#FDB827', '#B6FF3B', '#00C2B8'] },
+  { variant: 'market', name: 'Market Bear', job: 'Bearish? Never. Only goes up and to the right.', fur: ['#FF2E97', '#7B2CFF', '#009DDC', '#00C2B8', '#B6FF3B', '#FF8A1E'] },
+] as const;
 
 const rings = Array.from({ length: 34 }, (_, i) => 14 + i * 13);
 const bill = [
@@ -20,6 +28,9 @@ const bill = [
       <g class="ringset a">{rings.map((r) => <circle r={r} />)}</g>
       <g class="ringset b" id="moire-b">{rings.map((r) => <circle r={r} />)}</g>
     </svg>
+
+    <div class="peek peek-l" aria-hidden="true"><Bear variant="head" uid="peek-l" label="" fur={['#FF2E97', '#FDB827', '#B6FF3B', '#00C2B8', '#7B2CFF', '#FF8A1E']} /></div>
+    <div class="peek peek-r" aria-hidden="true"><Bear variant="head" uid="peek-r" label="" fur={['#00C2B8', '#7B2CFF', '#FF2E97', '#FF8A1E', '#FDB827', '#B6FF3B']} /></div>
 
     <div class="wrap stage">
       <p class="presents term-label">Cambridge, Mass. · MIT Class of 2029</p>
@@ -82,6 +93,22 @@ const bill = [
   </section>
 
   <Drip color="#7B2CFF" />
+
+  <section class="bears" aria-labelledby="bears-h">
+    <div class="wrap">
+      <p class="term-label kicker">The crew</p>
+      <h2 id="bears-h" class="display vibe-ml">Meet the bears.</h2>
+      <ul class="bear-grid">
+        {bears.map((b, i) => (
+          <li class={`bear-card c${i}`}>
+            <Bear variant={b.variant} uid={`b${i}`} fur={[...b.fur]} label={`${b.name}, an original psychedelic bear illustration`} />
+            <h3 class="display">{b.name}</h3>
+            <p>{b.job}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   <section class="bill halftone">
     <div class="wrap">
@@ -153,7 +180,42 @@ const bill = [
   .tagline { font-size: clamp(28px, 4.4vw, 56px); margin: -8px auto 14px; max-width: 18em; line-height: 1.1; }
   .tickets { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 30px; }
 
-  .bill { padding: clamp(120px, 14vw, 180px) 0 40px; }
+  .bill { padding: 30px 0 40px; }
+
+  /* ---------- bears ---------- */
+  .peek { position: absolute; z-index: 1; width: clamp(150px, 24vw, 340px); pointer-events: none; animation: peek 7s ease-in-out infinite; }
+  .peek-l { left: -3%; bottom: -2%; --tilt: 18deg; }
+  .peek-r { right: -3%; top: 14%; --tilt: -22deg; animation-delay: -3.5s; }
+  @keyframes peek {
+    0%, 100% { transform: rotate(var(--tilt)) translateY(30%); }
+    50% { transform: rotate(calc(var(--tilt) * -.4)) translateY(0) scale(1.08); }
+  }
+  :global(html[data-dose='trip']) .peek { animation-duration: 4s; }
+  :global(html[data-dose='sober']) .peek { animation: none; transform: rotate(var(--tilt)); }
+  @media (max-width: 760px) { .peek { width: 120px; opacity: .9; } .peek-r { top: auto; bottom: 30%; } }
+
+  .bears { padding: clamp(120px, 14vw, 180px) 0 20px; }
+  .bears h2 { font-size: clamp(44px, 7vw, 92px); transform: rotate(-2deg); margin: 14px 0 30px; }
+  .bear-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+  .bear-card {
+    position: relative; text-align: center;
+    background: var(--beige); color: var(--ink);
+    border: 4px solid var(--ink);
+    border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+    padding: 16px 16px 20px;
+    box-shadow: 8px 8px 0 var(--ink);
+    transition: transform .4s cubic-bezier(.3, 1.6, .5, 1);
+  }
+  .bear-card.c0 { transform: rotate(-4deg); box-shadow: 8px 8px 0 var(--magenta); }
+  .bear-card.c1 { transform: rotate(3deg) translateY(18px); box-shadow: 8px 8px 0 var(--violet); }
+  .bear-card.c2 { transform: rotate(-2deg) translateY(-8px); box-shadow: 8px 8px 0 var(--teal); }
+  .bear-card.c3 { transform: rotate(5deg) translateY(10px); box-shadow: 8px 8px 0 var(--orange); }
+  .bear-card:hover { transform: rotate(0) scale(1.08); z-index: 2; }
+  .bear-card:hover :global(.halo) { animation-duration: 4s; }
+  .bear-card h3 { font-size: clamp(26px, 2.6vw, 34px); margin: 6px 0 4px; color: var(--ink); }
+  .bear-card p { margin: 0; font-size: 17px; line-height: 1.4; }
+  @media (max-width: 960px) { .bear-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .bear-grid { grid-template-columns: minmax(0, 1fr); } .bear-card :global(.bear) { max-width: 240px; margin: 0 auto; } }
   .kicker { color: var(--violet); margin: 0; }
   .bill h2 { font-size: clamp(40px, 5.4vw, 64px); }
   .marquee {
