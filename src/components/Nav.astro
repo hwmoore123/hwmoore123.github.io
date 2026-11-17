@@ -30,28 +30,44 @@ const items = [
 <style>
   .deck { position: relative; z-index: 20; }
   .deck .stripe-h { height: 12px; background: var(--rainbow); }
-  .strip { border-bottom: 3px solid var(--walnut-dark); box-shadow: 0 4px 0 rgba(0,0,0,.15); }
-  .inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; flex-wrap: wrap; padding-block: 8px; }
+  /* wood strip with a ragged, torn bottom edge */
+  .strip {
+    padding-bottom: 12px;
+    clip-path: polygon(0 0, 100% 0, 100% 86%, 96% 93%, 91% 85%, 85% 96%, 79% 88%, 72% 97%, 66% 87%, 60% 94%, 53% 86%, 47% 98%, 41% 88%, 34% 95%, 28% 86%, 21% 97%, 15% 88%, 9% 95%, 4% 86%, 0 93%);
+  }
+  .inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; min-height: 60px; padding-block: 8px; }
   .brand {
-    font-family: var(--font-display); font-size: 28px; color: var(--beige); text-decoration: none; line-height: 1;
+    font-family: var(--font-hand); font-size: 34px; color: var(--lime); text-decoration: none; line-height: 1;
+    display: inline-block; transform: rotate(-8deg);
+    text-shadow: 3px 3px 0 var(--magenta), 5px 5px 0 var(--ink);
   }
-  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 0; padding: 0; align-items: center; }
+  /* sticky notes slapped on the bar */
   ul a {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-term); font-size: 22px; line-height: 1; letter-spacing: .08em; text-transform: uppercase;
+    --note: #FDB827;
+    display: inline-block;
+    font-family: var(--font-hand); font-size: 20px; line-height: 1;
     color: var(--ink); text-decoration: none;
-    background: linear-gradient(180deg, #F2E8D2, var(--beige-3));
-    border: 2px solid var(--walnut-dark); border-radius: 4px;
-    padding: 7px 12px 6px;
-    box-shadow: 0 3px 0 var(--walnut-dark), inset 0 1px 0 #fff8;
-    transition: transform .08s, box-shadow .08s;
+    background: var(--note);
+    padding: 10px 14px 8px;
+    border-radius: 2px 3px 14px 2px / 2px 2px 8px 3px;
+    box-shadow: 3px 4px 0 rgba(0,0,0,.35);
+    transition: transform .25s cubic-bezier(.3, 1.6, .5, 1);
   }
-  ul a:hover { background: linear-gradient(180deg, #F7FFE6, var(--lime)); }
-  ul a:active, ul a[aria-current='page'] { transform: translateY(3px); box-shadow: 0 0 0 var(--walnut-dark), inset 0 2px 4px #0004; }
-  ul a[aria-current='page'] { background: linear-gradient(180deg, #FFD7EA, var(--magenta)); color: #fff; text-shadow: 1px 1px 0 var(--violet); }
+  li:nth-child(1) a { --note: #FDB827; transform: rotate(-4deg); }
+  li:nth-child(2) a { --note: #B6FF3B; transform: rotate(3deg) translateY(3px); }
+  li:nth-child(3) a { --note: #00C2B8; transform: rotate(-2deg) translateY(-2px); }
+  li:nth-child(4) a { --note: #FF8A1E; transform: rotate(5deg) translateY(2px); }
+  li:nth-child(5) a { --note: #E8DCC4; transform: rotate(-6deg); }
+  ul a:hover { transform: rotate(0) scale(1.12); }
+  ul a[aria-current='page'] {
+    --note: #FF2E97; color: #fff;
+    text-shadow: 2px 2px 0 var(--ink);
+    outline: 3px dashed var(--ink); outline-offset: 3px;
+  }
   @media (max-width: 560px) {
     .inner { justify-content: center; }
     ul { justify-content: center; }
-    ul a { font-size: 19px; padding: 6px 9px 5px; }
+    ul a { font-size: 17px; padding: 8px 10px 6px; }
   }
 </style>

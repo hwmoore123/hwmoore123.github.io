@@ -1,0 +1,20 @@
+---
+// A hand-drawn marker squiggle used as a divider.
+interface Props { color?: string }
+const { color = '#23170D' } = Astro.props;
+let d = 'M0 30';
+for (let x = 0; x <= 1200; x += 40) {
+  const y = 30 + (x / 40 % 2 ? -18 : 18) + Math.sin(x * 0.013) * 6;
+  d += ` Q${x + 20} ${y} ${x + 40} 30`;
+}
+---
+<div class="squiggle" aria-hidden="true" role="separator">
+  <svg viewBox="0 0 1240 60" preserveAspectRatio="none">
+    <path d={d} fill="none" stroke={color} stroke-width="7" stroke-linecap="round" />
+    <path d={d} fill="none" stroke="#FF2E97" stroke-width="3" stroke-linecap="round" transform="translate(3 -4)" />
+  </svg>
+</div>
+<style>
+  .squiggle { margin: 40px 0 10px; height: 46px; filter: url(#rough); transform: rotate(-1deg); }
+  .squiggle svg { width: 100%; height: 100%; display: block; }
+</style>
