@@ -6,10 +6,10 @@ const notes = (await getCollection('notes', (n) => !n.data.draft)).sort((a, b) =
 const upcoming = ['Mantis research log', 'Markets, slowly', 'Thoughts from mile 10'];
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 ---
-<Base title="Writing" page="writing" description="Papers, research logs and writing by Wood Moore.">
+<Base title="Publications" page="publications" description="Publications, papers and research notes by Wood Moore.">
   <header class="wrap page-head">
-    <p class="term-label">Writing</p>
-    <h1 class="display vibe-lm drift">Writing.</h1>
+    <p class="term-label">Publications</p>
+    <h1 class="display vibe-lm drift">Publications.</h1>
     <p class="lede">Papers, research logs, and thoughts from mile 10.</p>
   </header>
 
@@ -25,7 +25,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
           <circle cx="150" cy="150" r="42" fill="#00C2B8" stroke="#23170D" stroke-width="6" />
           <circle cx="150" cy="150" r="18" fill="#23170D" />
           <circle cx="160" cy="140" r="6" fill="#E8DCC4" />
-          <text x="150" y="282" text-anchor="middle" font-family="Shrikhand, serif" font-size="28" fill="#23170D">Writing</text>
+          <text x="150" y="282" text-anchor="middle" font-family="Shrikhand, serif" font-size="28" fill="#23170D">Publications</text>
         </svg>
       </div>
     </div>
@@ -37,7 +37,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: '
           <li>
             <span class="no">{String(n.data.track).padStart(2, '0')}</span>
             <div>
-              <a href={`/writing/${n.id}/`}>{n.data.title}</a>
+              <a href={`/publications/${n.id}/`}>{n.data.title}</a>
               <p>{n.data.kind.toUpperCase()} · {fmt(n.data.date)} · {n.data.blurb}</p>
             </div>
           </li>

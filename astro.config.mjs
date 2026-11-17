@@ -8,8 +8,11 @@ export default defineConfig({
   redirects: {
     '/setlist': '/projects/',
     '/backstage': '/contact/',
-    '/notes': '/writing/',
-    '/notes/weighted-palu': '/writing/weighted-palu/',
-    '/notes/soundcheck': '/writing/soundcheck/',
+    '/notes': '/publications/',
+    '/notes/weighted-palu': '/publications/weighted-palu/',
+    '/notes/soundcheck': '/publications/soundcheck/',
+    '/writing': '/publications/',
+    '/writing/weighted-palu': '/publications/weighted-palu/',
+    '/writing/soundcheck': '/publications/soundcheck/',
   },
 });

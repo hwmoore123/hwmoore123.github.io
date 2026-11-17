@@ -19,7 +19,7 @@ A 1967 concert poster melting over a 1976 garage workbench. Astro static site, h
 | Project posters + kaleidoscope hover | `src/components/Poster.astro` |
 | Terminal boot | `src/components/Terminal.astro` |
 | Pages | `src/pages/` (index, about, setlist, notes, backstage, 404) |
-| Writing (Markdown posts) | `src/content/notes/*.md` |
+| Publications (Markdown pages) | `src/content/notes/*.md` |
 
 ## Add a liner note
 
