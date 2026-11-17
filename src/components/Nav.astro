@@ -2,11 +2,11 @@
 interface Props { current?: string }
 const { current = '' } = Astro.props;
 const items = [
-  { href: '/', key: 'home', label: 'Play', glyph: '▶' },
-  { href: '/about/', key: 'about', label: 'About', glyph: '◉' },
-  { href: '/setlist/', key: 'setlist', label: 'Setlist', glyph: '≡' },
-  { href: '/notes/', key: 'notes', label: 'Notes', glyph: '♪' },
-  { href: '/backstage/', key: 'backstage', label: 'Backstage', glyph: '✦' },
+  { href: '/', key: 'home', label: 'Home' },
+  { href: '/about/', key: 'about', label: 'About' },
+  { href: '/setlist/', key: 'setlist', label: 'Projects' },
+  { href: '/notes/', key: 'notes', label: 'Writing' },
+  { href: '/backstage/', key: 'backstage', label: 'Contact' },
 ];
 ---
 <header class="deck">
@@ -18,7 +18,7 @@ const items = [
         {items.map((i) => (
           <li>
             <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>
-              <span class="glyph" aria-hidden="true">{i.glyph}</span>{i.label}
+              {i.label}
             </a>
           </li>
         ))}
@@ -49,7 +49,6 @@ const items = [
   ul a:hover { background: linear-gradient(180deg, #F7FFE6, var(--lime)); }
   ul a:active, ul a[aria-current='page'] { transform: translateY(3px); box-shadow: 0 0 0 var(--walnut-dark), inset 0 2px 4px #0004; }
   ul a[aria-current='page'] { background: linear-gradient(180deg, #FFD7EA, var(--magenta)); color: #fff; text-shadow: 1px 1px 0 var(--violet); }
-  .glyph { font-size: 16px; }
   @media (max-width: 560px) {
     .inner { justify-content: center; }
     ul { justify-content: center; }
